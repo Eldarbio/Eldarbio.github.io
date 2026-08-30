@@ -32,19 +32,21 @@ document.getElementById('aiClose').addEventListener('click', closeAI);
 overlay.addEventListener('click', closeAI);
 document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ closeAI(); closeMobile(); }});
 
-// --------- FREE AI (Gemini) CONFIG ---------
-// Free, not dumb: gemini-1.5-flash via Google AI Studio - 60 req/min free.
-// User will send key to be embedded directly (no UI). WARNING: key is visible in public source if embedded.
-const GEMINI_MODEL = "gemini-1.5-flash";
-const HARDCODED_GEMINI_KEY = ""; // <-- paste API key here when user sends it (AIza...)
-function getApiKey(){ return HARDCODED_GEMINI_KEY || localStorage.getItem("gemini_api_key") || ""; }
-function setApiKey(k){ if(k) localStorage.setItem("gemini_api_key", k.trim()); }
-function clearApiKey(){ localStorage.removeItem("gemini_api_key"); }
+// --------- REAL FREE AI (no key, public, not dumb) ---------
+// Pollinations free - 0₼, no API key, no warning, not stealable. Public can use it directly.
+// Model is openai (Llama/Mistral) - smart enough. Falls back to local if offline.
+async function callFreeAI(userQuestion){
+  const prompt = `${buildSystemPrompt()}\n\nUSER QUESTION: ${userQuestion}\n\nAnswer concisely, helpful, professional.`;
+  const url = `https://text.pollinations.ai/${encodeURIComponent(prompt)}`;
+  const res = await fetch(url, { method: "GET" });
+  if(!res.ok) throw new Error(`Pollinations ${res.status}`);
+  const text = await res.text();
+  return text.trim().slice(0, 2500) || null;
+}
 
 function buildSystemPrompt(){
-  // Long text you will give me later goes into KNOWLEDGE_EXTRA - paste it there
   const extra = (typeof KNOWLEDGE_EXTRA !== "undefined" && KNOWLEDGE_EXTRA) ? `\n\nEXTRA INFO PROVIDED BY ELDAR:\n${KNOWLEDGE_EXTRA}\n` : "";
-  return `You are Eldar Hamidov's portfolio assistant. Answer ONLY from the knowledge below. Be helpful, concise, professional. If question is outside knowledge, say you only answer from CV and suggest contacting eldarhamidov2009@gmail.com. No phone/birthdate. Language: answer in the user's language (AZ/EN/TR/RU).
+  return `You are Eldar Hamidov's portfolio assistant. Answer ONLY from the knowledge below. Be helpful, concise, professional. If question is outside knowledge, say you only answer from CV and suggest contacting eldarhamidov2009@gmail.com. No phone/birthdate. Language: answer in user's language (AZ/EN/TR/RU).
 
 NAME: ${KNOWLEDGE.name} <${KNOWLEDGE.email}>
 ABOUT: ${KNOWLEDGE.about}
@@ -55,24 +57,6 @@ LINKS: ${KNOWLEDGE.links}
 WIN EXAMPLES: ${Object.entries(KNOWLEDGE.how_win_examples).map(([k,v])=> `${k}: ${v}`).join(" | ")}
 HOW TO WIN ADVICE: ${KNOWLEDGE.how_to_win_advice}
 SOURCES: ${KNOWLEDGE.sources}${extra}`;
-}
-
-async function callGemini(userQuestion){
-  const key = getApiKey();
-  if(!key) return null;
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${encodeURIComponent(key)}`;
-  const body = {
-    contents: [{ role: "user", parts: [{ text: `${buildSystemPrompt()}\n\nUSER QUESTION: ${userQuestion}` }]}],
-    generationConfig: { temperature: 0.7, maxOutputTokens: 700 }
-  };
-  const res = await fetch(url, { method: "POST", headers: {"Content-Type":"application/json"}, body: JSON.stringify(body) });
-  if(!res.ok){
-    const txt = await res.text();
-    throw new Error(`Gemini ${res.status}: ${txt.slice(0,300)}`);
-  }
-  const data = await res.json();
-  const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
-  return text || null;
 }
 
 // --------- KNOWLEDGE BASE ---------
@@ -149,16 +133,13 @@ async function handleQuestion(q){
   addMsg(q, 'user');
   const typing = document.createElement('div');
   typing.className = 'msg ai';
-  typing.textContent = 'Thinking...';
+  typing.textContent = 'Thinking (real AI)...';
   messages.appendChild(typing);
   messages.scrollTop = messages.scrollHeight;
   try{
-    const key = getApiKey();
     let answer = null;
-    if(key){
-      try{ answer = await callGemini(q); } catch(err){ answer = `Gemini error (using local fallback): ${err.message}\n\n${answerFor(q)}`; }
-    }
-    if(!answer) answer = answerFor(q);
+    try{ answer = await callFreeAI(q); } catch(err){ answer = null; }
+    if(!answer || answer.length < 10) answer = answerFor(q);
     typing.textContent = answer;
   } catch(e){
     typing.textContent = answerFor(q);
