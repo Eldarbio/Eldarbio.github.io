@@ -1,33 +1,17 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120" role="img" aria-label="Eldar Hamidov logo">
-  <defs>
-    <linearGradient id="dgrad" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#1b1b19"/>
-      <stop offset="100%" stop-color="#0a0a09"/>
-    </linearGradient>
-    <linearGradient id="gold2" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#c99a5a"/>
-      <stop offset="100%" stop-color="#f2d09a"/>
-    </linearGradient>
-  </defs>
-  <!-- diamond shield - completely different from circle -->
-  <path d="M60 10 L104 60 L60 110 L16 60 Z" fill="url(#dgrad)" stroke="url(#gold2)" stroke-width="2.2" stroke-linejoin="round"/>
-  <!-- inner diamond line -->
-  <path d="M60 22 L92 60 L60 98 L28 60 Z" fill="none" stroke="#c99a5a" stroke-width="1" opacity="0.32"/>
-  <!-- abstract mark: three stacked bars with offset - represents LE → Robotics → AI -->
-  <g fill="#faf8f5">
-    <rect x="42" y="36" width="36" height="9" rx="2.5"/>
-    <rect x="42" y="55.5" width="28" height="9" rx="2.5"/>
-    <rect x="42" y="75" width="36" height="9" rx="2.5"/>
+  <!-- LIGHT premium badge - opposite of all dark previous, completely different -->
+  <rect width="120" height="120" rx="28" fill="#faf8f5" stroke="#e8e2d9" stroke-width="1.5"/>
+  <!-- inner thin line -->
+  <rect x="10" y="10" width="100" height="100" rx="20" fill="none" stroke="#1d1d1f" stroke-width="0.8" opacity="0.08"/>
+  <!-- minimal E - single stroke, ultra clean -->
+  <g fill="none" stroke="#1d1d1f" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M38 34 H84" stroke-width="8"/>
+    <path d="M38 34 V86" stroke-width="8"/>
+    <path d="M38 60 H72" stroke-width="8"/>
+    <path d="M38 86 H84" stroke-width="8"/>
   </g>
-  <!-- vertical spine left -->
-  <rect x="42" y="36" width="9" height="48" rx="2.5" fill="#faf8f5"/>
-  <!-- gold accent dots right end of bars - AI nodes -->
-  <circle cx="82" cy="40.5" r="5" fill="url(#gold2)" stroke="#0a0a09" stroke-width="1.6"/>
-  <circle cx="74" cy="60" r="4" fill="url(#gold2)" stroke="#0a0a09" stroke-width="1.4"/>
-  <circle cx="82" cy="79.5" r="5" fill="url(#gold2)" stroke="#0a0a09" stroke-width="1.6"/>
-  <!-- outer small corner dots -->
-  <circle cx="60" cy="10" r="2.2" fill="#c99a5a"/>
-  <circle cx="104" cy="60" r="2.2" fill="#c99a5a"/>
-  <circle cx="60" cy="110" r="2.2" fill="#c99a5a"/>
-  <circle cx="16" cy="60" r="2.2" fill="#c99a5a"/>
+  <!-- single gold accent dot - the AI pulse, minimal -->
+  <circle cx="88" cy="34" r="6" fill="#8a5a2b" stroke="#faf8f5" stroke-width="2.5"/>
+  <!-- small gold bar bottom - signature, thin -->
+  <rect x="38" y="98" width="44" height="3" rx="1.5" fill="#8a5a2b" opacity="0.9"/>
 </svg>
