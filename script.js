@@ -33,10 +33,11 @@ overlay.addEventListener('click', closeAI);
 document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ closeAI(); closeMobile(); }});
 
 // --------- FREE AI (Gemini) CONFIG ---------
-// Free, not dumb: gemini-1.5-flash (or gemini-2.0-flash) via Google AI Studio - 60 req/min free.
-// Key is NOT in repo - user pastes it in the AI panel, saved in localStorage only.
-const GEMINI_MODEL = "gemini-1.5-flash"; // change to gemini-2.0-flash if you want newer
-function getApiKey(){ return localStorage.getItem("gemini_api_key") || ""; }
+// Free, not dumb: gemini-1.5-flash via Google AI Studio - 60 req/min free.
+// User will send key to be embedded directly (no UI). WARNING: key is visible in public source if embedded.
+const GEMINI_MODEL = "gemini-1.5-flash";
+const HARDCODED_GEMINI_KEY = ""; // <-- paste API key here when user sends it (AIza...)
+function getApiKey(){ return HARDCODED_GEMINI_KEY || localStorage.getItem("gemini_api_key") || ""; }
 function setApiKey(k){ if(k) localStorage.setItem("gemini_api_key", k.trim()); }
 function clearApiKey(){ localStorage.removeItem("gemini_api_key"); }
 
@@ -178,35 +179,4 @@ document.querySelectorAll('[data-q]').forEach(b=>{
   });
 });
 
-// API key UI
-const apiInput = document.getElementById('apiKeyInput');
-const saveBtn = document.getElementById('saveKeyBtn');
-const clearBtn = document.getElementById('clearKeyBtn');
-const keyMsg = document.getElementById('keyMsg');
-const keyStatus = document.getElementById('keyStatus');
-function refreshKeyUI(){
-  const k = getApiKey();
-  if(k){
-    keyStatus.textContent = "— saved ✓ (free Gemini, not dumb)";
-    keyStatus.style.color = "#36c46a";
-    apiInput.placeholder = "Key saved in this browser";
-    keyMsg.textContent = "AI will use Gemini 1.5 Flash (smart, free). Clear to use local fallback.";
-    apiInput.value = "";
-  } else {
-    keyStatus.textContent = "— local only (add key for smart AI)";
-    keyStatus.style.color = "var(--muted)";
-    keyMsg.textContent = "No key = local rule-based answers. Add key for real AI.";
-  }
-}
-if(saveBtn){
-  refreshKeyUI();
-  saveBtn.addEventListener('click', ()=>{
-    const v = apiInput.value.trim();
-    if(!v || !v.startsWith('AIza')){ keyMsg.textContent = "Paste a valid Gemini key starting with AIza..."; return; }
-    setApiKey(v); refreshKeyUI(); keyMsg.textContent = "Saved! Try asking a question now.";
-    apiInput.value="";
-  });
-  clearBtn.addEventListener('click', ()=>{ clearApiKey(); refreshKeyUI(); keyMsg.textContent="Key cleared. Using local AI."; });
-  // preload if saved
-  if(getApiKey()) apiInput.value = "";
-}
+// (Key UI removed per user request - key will be hardcoded in HARDCODED_GEMINI_KEY)
