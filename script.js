@@ -304,4 +304,52 @@ document.querySelectorAll('[data-q]').forEach(b=>{
   });
 });
 
+// --- Language Switch EN/AZ ---
+const I18N = {
+  en: {
+    navAbout:"About", navSkills:"Skills", navAchievements:"Achievements", navProjects:"Projects", navContact:"Contact", askAI:"Ask AI about me",
+    heroEyebrow:"Sumgait • İstedad Liseyi • Class of 2023–present", heroSubtitle:"Student • Developer • Robotics & Cybersecurity enthusiast",
+    heroLead:"I build robots, explore AI and compete internationally — from RoboCross and WRO to NJCO and the International AI Olympiad. Focused on clean engineering, practical problem-solving and continuous learning.",
+    heroBtnAbout:"About me", heroBtnAch:"Achievements",
+    cardHead:"At a glance", cardTop:"Top results", cardStacks:"Stacks", cardEdu:"Education", cardEduV:"Sumgait İstedad Liseyi (2023–present) • Fərqlənmə attestat", cardLinks:"Links",
+    aboutTitle:"About", aboutSub:"What drives me — and how I work.",
+    aboutP1:"I'm a student at <strong>Sumgait İstedad Liseyi</strong> with a strong interest in robotics, cybersecurity and applied AI. I enjoy taking an idea from sketch (Fusion 360 / FreeCAD) to a working prototype, and then documenting and sharing the process.",
+    aboutP2:"Competitions taught me to work under constraints, iterate quickly and learn from failures — whether it was RoboCross, WRO Virtual Games, SAF or Teknofest. I value teamwork, clear communication and reliable follow-through.",
+    aboutP3:"I also volunteer with <strong>Sumgait Youth House</strong> and <strong>Bir Könüllü</strong>, helping with events and peer trainings (e.g., “Data sphere job divisions”, 2026).",
+    aboutLikeTitle:"What I'm like", aboutLike1:"Curious and disciplined — consistent practice over last-minute cramming.", aboutLike2:"Hands-on builder — CAD → 3D print → code → test.", aboutLike3:"Team player — experience in SUMracers and cross-school teams.", aboutLike4:"Communicative — comfortable presenting in Azerbaijani, English (B2) and Turkish.", aboutMore:"Want more? Ask the assistant → top-right “Ask AI about me”.",
+    skillsTitle:"Skills", achTitle:"Achievements", achSub:"Every competition & award from my CV — chronological.", projTitle:"Projects", contactTitle:"Contact", contactSub:"Only public contact — as you requested.",
+    aiTitle:"Ask about Eldar", aiSub:"Answers only from your CV + the knowledge you provide. No personal numbers."
+  },
+  az: {
+    navAbout:"Haqqımda", navSkills:"Bacarıqlar", navAchievements:"Nailiyyətlər", navProjects:"Layihələr", navContact:"Əlaqə", askAI:"AI-dan soruş",
+    heroEyebrow:"Sumqayıt • İstedad Liseyi • 2023–indiyədək", heroSubtitle:"Şagird • Developer • Robototexnika və Kibertəhlükəsizlik həvəskarı",
+    heroLead:"Robotlar qururam, süni intellekti kəşf edirəm və beynəlxalq yarışlarda iştirak edirəm — RoboCross və WRO-dan NJCO və Beynəlxalq AI Olimpiadasına qədər. Təmiz mühəndislik və praktik problem həllinə fokuslanıram.",
+    heroBtnAbout:"Haqqımda", heroBtnAch:"Nailiyyətlər",
+    cardHead:"Qısa baxış", cardTop:"Əsas nəticələr", cardStacks:"Texnologiyalar", cardEdu:"Təhsil", cardEduV:"Sumqayıt İstedad Liseyi (2023–indiyədək) • Fərqlənmə attestatı", cardLinks:"Keçidlər",
+    aboutTitle:"Haqqımda", aboutSub:"Məni nə motivasiya edir və necə işləyirəm.",
+    aboutP1:"Mən <strong>Sumqayıt İstedad Liseyinin</strong> şagirdiyəm, robototexnika, kibertəhlükəsizlik və tətbiqi süni intellektə böyük marağım var. İdeyanı eskizdən (Fusion 360 / FreeCAD) işlək prototipə çevirməyi və prosesi sənədləşdirməyi sevirəm.",
+    aboutP2:"Yarışlar mənə məhdudiyyətlər altında işləməyi, tez iterasiya etməyi və uğursuzluqlardan öyrənməyi öyrətdi — RoboCross, WRO Virtual Games, SAF və ya Teknofest olsun. Komanda işini, aydın ünsiyyəti və məsuliyyəti dəyərləndirirəm.",
+    aboutP3:"Həmçinin <strong>Sumqayıt Gənclər Evi</strong> və <strong>Bir Könüllü</strong> ilə könüllülük edirəm, tədbirlərə və təlimlərə kömək edirəm (məs., “Data sferasında iş bölgüləri”, 2026).",
+    aboutLikeTitle:"Necə biriyəm", aboutLike1:"Maraqlı və intizamlı — son anda əzbərləmək əvəzinə müntəzəm məşq.", aboutLike2:"Praktik qurucu — CAD → 3D çap → kod → test.", aboutLike3:"Komanda oyunçusu — SUMracers və məktəblərarası komandalarda təcrübə.", aboutLike4:"Ünsiyyətcil — Azərbaycan, ingilis (B2) və türk dillərində təqdimat.", aboutMore:"Daha çox? Köməkçidən soruş → yuxarı sağ “AI-dan soruş”.",
+    skillsTitle:"Bacarıqlar", achTitle:"Nailiyyətlər", achSub:"CV-dən bütün yarış və mükafatlar — xronoloji.", projTitle:"Layihələr", contactTitle:"Əlaqə", contactSub:"Yalnız ictimai əlaqə — istədiyiniz kimi.",
+    aiTitle:"Eldar haqqında soruş", aiSub:"Yalnız CV və verdiyiniz məlumatlardan cavab verir. Şəxsi nömrə yoxdur."
+  }
+};
+function setLang(lang){
+  const t = I18N[lang] || I18N.en;
+  document.documentElement.lang = lang;
+  document.querySelectorAll("[data-i18n]").forEach(el=>{
+    const k = el.getAttribute("data-i18n");
+    if(t[k] !== undefined){
+      // allow HTML in some fields (aboutP1 etc.)
+      if(k.startsWith("aboutP")) el.innerHTML = t[k];
+      else el.textContent = t[k];
+    }
+  });
+  document.querySelectorAll(".lang-btn").forEach(b=> b.classList.toggle("active", b.dataset.lang===lang));
+  localStorage.setItem("site_lang", lang);
+}
+document.querySelectorAll(".lang-btn").forEach(b=> b.addEventListener("click", ()=> setLang(b.dataset.lang)));
+// init
+setLang(localStorage.getItem("site_lang") || "en");
 // (Key UI removed per user request - key will be hardcoded in HARDCODED_GEMINI_KEY)
