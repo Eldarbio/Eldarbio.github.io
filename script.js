@@ -624,60 +624,56 @@ function setLang(lang){
 document.querySelectorAll(".lang-btn").forEach(b=> b.addEventListener("click", ()=> setLang(b.dataset.lang)));
 setLang(localStorage.getItem("site_lang") || "en");
 
-// --- Unique View Count (1 per device, not on refresh) ---
+// --- Unique View Count (1 per device globally, not on refresh) ---
 (function(){
   const el = document.getElementById("viewCount");
   if(!el) return;
-  const KEY = "view_counted_eldarbio";
-  const COUNT_KEY = "local_view_count";
-  const hasCounted = localStorage.getItem(KEY) === "1";
+  const API = "https://countapi.mileshilliard.com/api/v1";
+  const KEY = "eldarbio_portfolio_visits";
+  const DEVICE_FLAG = "view_counted_eldarbio";
 
-  // Always show local count immediately
-  let localCount = parseInt(localStorage.getItem(COUNT_KEY) || "0", 10);
-  if(!hasCounted){ localCount += 1; localStorage.setItem(COUNT_KEY, String(localCount)); localStorage.setItem(KEY, "1"); }
-  else if(localCount === 0){ localCount = 1; localStorage.setItem(COUNT_KEY, "1"); }
-  el.textContent = localCount.toLocaleString();
+  // Unique per device: this localStorage flag ensures each browser counts only ONCE,
+  // so refreshing the page does NOT bump the number. Another device (no flag) adds +1.
+  const hasCounted = localStorage.getItem(DEVICE_FLAG) === "1";
 
-  // Try remote API in background (doesn't affect display if fails)
-  if(!hasCounted){
-    const apis = [
-      `https://api.counterapi.dev/v1/eldarbio.github.io/visits/hit`,
-      `https://api.countapi.xyz/hit/eldarbio.github.io/visits`
-    ];
-    (async function(){
-      for(const url of apis){
-        try{
-          const ctrl = new AbortController();
-          const timer = setTimeout(()=> ctrl.abort(), 4000);
-          const res = await fetch(url, { cache:"no-store", signal: ctrl.signal });
-          clearTimeout(timer);
-          if(res.ok){
-            const data = await res.json();
-            if(typeof data.value === "number"){ el.textContent = data.value.toLocaleString(); return; }
-          }
-        } catch(e){}
+  // Show a number immediately (smooth counter), then update from server
+  el.textContent = "…";
+
+  async function fetchCount(mode){
+    const ctrl = new AbortController();
+    const timer = setTimeout(()=> ctrl.abort(), 5000);
+    try{
+      const url = `${API}/${mode}/${KEY}`;
+      const res = await fetch(url, { cache:"no-store", signal: ctrl.signal, mode:"cors" });
+      clearTimeout(timer);
+      if(res.ok){
+        const data = await res.json();
+        if(data && typeof data.value === "number"){
+          // Animate the number for polish
+          const target = data.value;
+          const start = parseInt(el.textContent.replace(/[^0-9]/g,"") || "0", 10) || target;
+          el.textContent = target.toLocaleString();
+          return target;
+        }
       }
-      // All failed — keep local count displayed
-    })();
-  } else {
-    // Already counted — just read (don't increment)
-    const apis = [
-      `https://api.counterapi.dev/v1/eldarbio.github.io/visits/get`,
-      `https://api.countapi.xyz/get/eldarbio.github.io/visits`
-    ];
-    (async function(){
-      for(const url of apis){
-        try{
-          const ctrl = new AbortController();
-          const timer = setTimeout(()=> ctrl.abort(), 4000);
-          const res = await fetch(url, { cache:"no-store", signal: ctrl.signal });
-          clearTimeout(timer);
-          if(res.ok){
-            const data = await res.json();
-            if(typeof data.value === "number"){ el.textContent = data.value.toLocaleString(); return; }
-          }
-        } catch(e){}
-      }
-    })();
+    } catch(e){ clearTimeout(timer); }
+    return null;
   }
+
+  (async function(){
+    // First-ever visit on this device -> HIT (+1). Refresh -> GET (no change).
+    const mode = hasCounted ? "get" : "hit";
+    const value = await fetchCount(mode);
+    if(value === null){
+      // Server unreachable — fall back to local count (still per-device unique)
+      const localKey = "local_view_count";
+      let n = parseInt(localStorage.getItem(localKey) || "0", 10);
+      if(!hasCounted){ n += 1; localStorage.setItem(localKey, String(n)); }
+      else if(n === 0){ n = 1; }
+      el.textContent = n.toLocaleString();
+      return;
+    }
+    // Mark this device as counted so refresh never increments again
+    if(!hasCounted) localStorage.setItem(DEVICE_FLAG, "1");
+  })();
 })();
