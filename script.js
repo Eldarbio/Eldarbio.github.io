@@ -377,8 +377,13 @@ function answerFor(q){
   else if (/(source|what.*use|where.*learn|book|material)/.test(s)) ans = KNOWLEDGE.sources;
   else if (/(education|school|language)/.test(s)) ans = KNOWLEDGE.education;
   else if (/(skill|python|c\+\+|fusion|solid)/.test(s)) ans = KNOWLEDGE.skills;
-  else if (/(contact|email|gmail|github|youtube|instagram)/.test(s)) ans = `${KNOWLEDGE.name} — ${KNOWLEDGE.email}\n${KNOWLEDGE.links}`;
-  else {
+  else if (/(contact|email|gmail|github|youtube|instagram)/.test(s)) ans = `${KNOWLEDGE.name} - ${KNOWLEDGE.email}\n${KNOWLEDGE.links}`;
+  else if (/(how old|old is eldar|eldar.*age|age.*eldar|born|birthday|nece yasi|yasi nece|yas nece|necen yasin|nece yas)/.test(s)) {
+    const lang = document.documentElement.lang || "en";
+    ans = lang === "az"
+      ? `Eldar 16 yaşındadır (2009-cu il təvəllüdlü), Sumqayıt, Azərbaycan. Sumqayıt 29 nömrəli məktəbin şagirdidir.`
+      : `Eldar is 16 years old (born 2009), from Sumgait, Azerbaijan. Student at School No.29, Sumgait.`;
+  } else {
     // Generic fallback — varied so it never repeats verbatim
     const fallbacks = [
       `Good question! I focus on Eldar Hamidov — his robotics, cybersecurity and AI work (check Achievements). Tell me which area interests you — wins, skills, or projects — and I'll dive deeper.`,
