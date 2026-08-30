@@ -158,8 +158,11 @@ html.dark #themeToggle .icon-moon{display:block}
 .msg{max-width:88%; padding:.7rem .85rem; border-radius:16px; font-size:.92rem; line-height:1.5; border:1px solid var(--border)}
 .msg.ai{background:var(--card); border-top-left-radius:6px}
 .msg.user{background:var(--text); color:var(--bg); align-self:flex-end; border-top-right-radius:6px; border-color:var(--text)}
-.ai-suggestions{display:flex; gap:.4rem; flex-wrap:wrap; padding:.6rem 1rem; border-top:1px solid var(--border)}
-.ai-suggestions button{font-size:.78rem; padding:.4rem .65rem; border-radius:999px; border:1px solid var(--border); background:var(--bg-soft); cursor:pointer}
+.ai-suggestions{display:flex; gap:.4rem; flex-wrap:wrap; padding:.6rem 1rem; border-top:1px solid var(--border); background:var(--card)}
+.ai-suggestions button{font-size:.78rem; padding:.45rem .7rem; border-radius:999px; border:1px solid var(--border); background:var(--bg); color:var(--text); cursor:pointer; font-weight:500; transition:.15s}
+.ai-suggestions button:hover{background:var(--bg-soft); border-color:color-mix(in srgb, var(--accent) 30%, var(--border)); color:var(--accent)}
+html.dark .ai-suggestions button{background:#252523; border-color:#333330; color:#e8e6df}
+html.dark .ai-suggestions button:hover{background:#2d2d2a; border-color:var(--accent); color:var(--accent)}
 .ai-form{display:flex; gap:.5rem; padding:1rem; border-top:1px solid var(--border)}
 .ai-form input{flex:1; padding:.7rem .9rem; border-radius:999px; border:1px solid var(--border); background:var(--bg); color:var(--text)}
 .ai-form button{padding:.7rem 1rem; border-radius:999px; border:1px solid var(--text); background:var(--text); color:var(--bg); font-weight:600; cursor:pointer}
