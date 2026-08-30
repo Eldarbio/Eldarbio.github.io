@@ -279,7 +279,7 @@ Robot Arm prototype, Aqua Fly rescue drone (SolidWorks, PETG). Do not invent spe
 Interest expanded to cybersecurity, intersecting AI/robotics. NJCO 2nd, AKTA Cyber Summer School. Not just "hacker" but technology-oriented learner.
 
 # 16. EDUCATION
-Sumqayit City Istedad Lyceum 2016–2023, T. Ismayilov No.29 2023 onward, honors diploma. Languages: Azerbaijani primary, Turkish good, English B2, Russian basic.
+School No.29 named after T. Ismayilov, Sumgait — 2023–present, honors diploma. Languages: Azerbaijani primary, Turkish good, English B2, Russian basic.
 
 # 17. ACADEMIC DIRECTION
 Mechanical Engineering, Mechatronics, Robotics, AI, Computer Vision, Embedded Systems, Intelligent Systems. Intersection AI+Robotics+Embedded+Engineering. Aspires to MIT/Stanford level environments - say "are examples of high-level environments Eldar aspires to" not "will be admitted".
@@ -326,7 +326,7 @@ const KNOWLEDGE_EXTRA = "";
 const KNOWLEDGE = {
   name: "Eldar Hamidov",
   email: "eldarhamidov2009@gmail.com",
-  about: "Student at Sumgait Istedad Liseyi (2023–present). Passionate about robotics, cybersecurity and AI. Hands-on builder: Fusion 360 / SolidWorks / FreeCAD → 3D print → code (Python, C++, Arduino/ESP32). Volunteer at Sumgait Youth House and Bir Könüllü.",
+  about: "Student at School No.29, Sumgait (2023–present). Passionate about robotics, cybersecurity and AI. Hands-on builder: Fusion 360 / SolidWorks / FreeCAD → 3D print → code (Python, C++, Arduino/ESP32). Volunteer at Sumgait Youth House and Bir Könüllü.",
   personality: "Curious, disciplined and team-oriented. Learns by building and iterating. Likes to document and explain so others can reproduce results. Strong presentation skills in Azerbaijani, English (B2), Turkish and basic Russian.",
   how_win_examples: {
     "robocross": "RoboCross Online Challenge (Egypt, 2020) — 2nd worldwide as part of a team. Preparation: regular algorithm practice (Bebras-style), CAD/prototyping, and many test runs. Key was reliable teamwork and quick debugging.",
@@ -337,8 +337,8 @@ const KNOWLEDGE = {
     "stpetersburg": "Professionals competition in St. Petersburg (2025) — 1st place. Focus on applied engineering tasks under time pressure."
   },
   how_to_win_advice: "1) Choose one competition and study its past tasks (Bebras, WRO, SAF briefs). 2) Build a simple prototype early, test daily, keep a log. 3) Learn fundamentals (algorithms — CSES book, Python/C++; for robotics — ESP32/Arduino docs; for cyber — Linux, networks, Wireshark). 4) Get mentorship and peer review. 5) Practice presenting — clear story beats complex tech. 6) Iterate after failures; document what changed.",
-  sources: "Sources used: Bebras tasks (AZ + USA), CSES book / two-pointers techniques, Arduino/ESP32 documentation, WRO rulebooks, SAF project briefs, school mentorship (Istedad Liseyi), AKTA Cyber Summer School materials, SolidWorks/Fusion 360 tutorials, and open GitHub examples (see github.com/Eldar-005). For 3D printing: Anycubic Kobra 2 Pro manuals and PrusaSlicer guides.",
-  education: "Sumgait city Istedad Lyceum (2023–present) and 29 No. T. Ismayilov school (2016–2023). Certificate with distinction. Languages: English B2 (excellent), Turkish good, Russian sufficient.",
+  sources: "Sources used: Bebras tasks (AZ + USA), CSES book / two-pointers techniques, Arduino/ESP32 documentation, WRO rulebooks, SAF project briefs, school mentorship (School No.29), AKTA Cyber Summer School materials, SolidWorks/Fusion 360 tutorials, and open GitHub examples (see github.com/Eldar-005). For 3D printing: Anycubic Kobra 2 Pro manuals and PrusaSlicer guides.",
+  education: "School No.29 named after T. Ismayilov, Sumgait — Certificate with distinction. Languages: English B2 (excellent), Turkish good, Russian sufficient.",
   skills: "Python, C++, MS Windows/Excel, Fusion 360, SolidWorks, FreeCAD.",
   links: "GitHub: github.com/Eldar-005 • YouTube: youtube.com/@EldarBuildLab • Instagram: instagram.com/eldar_hamidov09"
 };
@@ -465,7 +465,7 @@ const I18N = {
     askAI:"Ask AI about me",
     views:"views", uniqueViews:"unique per device",
     // Hero
-    heroEyebrow:"Sumgait • İstedad Liseyi • Class of 2023–present",
+    heroEyebrow:"Sumgait • School No.29 • Class of 2023–present",
     heroSubtitle:"Student • Developer • Robotics & Cybersecurity enthusiast",
     heroLead:"I build robots, explore AI and compete internationally — from RoboCross and WRO to NJCO and the International AI Olympiad. Focused on clean engineering, practical problem-solving and continuous learning.",
     heroBtnAbout:"About me", heroBtnAch:"Achievements",
@@ -475,11 +475,11 @@ const I18N = {
     cardHead:"At a glance", cardTop:"Top results",
     cardTopV:"USA English Olympiad — 1st • Professionals St. Petersburg — 1st • NJCO — 2nd • AIRO 2026 — 2nd",
     cardStacks:"Stacks", cardEdu:"Education",
-    cardEduV:"Sumgait İstedad Liseyi (2023–present) • Fərqlənmə attestat",
+    cardEduV:"School No.29, Sumgait (2023–present) • Fərqlənmə attestatı",
     cardLinks:"Links", cardNote:"Works on phone, tablet and desktop.",
     // About
     aboutTitle:"About", aboutSub:"What drives me — and how I work.",
-    aboutP1:'I\'m a student at <strong>Sumgait İstedad Liseyi</strong> with a strong interest in robotics, cybersecurity and applied AI. I enjoy taking an idea from sketch (Fusion 360 / FreeCAD) to a working prototype, and then documenting and sharing the process.',
+    aboutP1:'I\'m a student at <strong>School No.29, Sumgait</strong> with a strong interest in robotics, cybersecurity and applied AI. I enjoy taking an idea from sketch (Fusion 360 / FreeCAD) to a working prototype, and then documenting and sharing the process.',
     aboutP2:'Competitions taught me to work under constraints, iterate quickly and learn from failures — whether it was RoboCross, WRO Virtual Games, SAF or Teknofest. I value teamwork, clear communication and reliable follow-through.',
     aboutP3:'I also volunteer with <strong>Sumgait Youth House</strong> and <strong>Bir Könüllü</strong>, helping with events and peer trainings (e.g., "Data sphere job divisions", 2026).',
     aboutLikeTitle:"What I'm like",
@@ -548,7 +548,7 @@ const I18N = {
     askAI:"AI-dan soruş",
     views:"baxış", uniqueViews:"hər cihaz üçün 1 dəfə",
     // Hero
-    heroEyebrow:"Sumqayıt • İstedad Liseyi • 2023–indiyədək",
+    heroEyebrow:"Sumqayıt • 29 nömrəli məktəb • 2023–indiyədək",
     heroSubtitle:"Şagird • Developer • Robototexnika və Kibertəhlükəsizlik həvəskarı",
     heroLead:"Robotlar qururam, süni intellekti kəşf edirəm və beynəlxalq yarışlarda iştirak edirəm — RoboCross və WRO-dan NJCO və Beynəlxalq AI Olimpiadasına qədər. Təmiz mühəndislik və praktik problem həllinə fokuslanıram.",
     heroBtnAbout:"Haqqımda", heroBtnAch:"Nailiyyətlər",
@@ -558,11 +558,11 @@ const I18N = {
     cardHead:"Qısa baxış", cardTop:"Əsas nəticələr",
     cardTopV:"USA English Olympiad — 1-ci • Professionals Saint Petersburg — 1-ci • NJCO — 2-ci • AIRO 2026 — 2-ci",
     cardStacks:"Texnologiyalar", cardEdu:"Təhsil",
-    cardEduV:"Sumqayıt İstedad Liseyi (2023–indiyədək) • Fərqlənmə attestatı",
+    cardEduV:"29 nömrəli məktəb, Sumqayıt (2023–indiyədək) • Fərqlənmə attestatı",
     cardLinks:"Keçidlər", cardNote:"Telefon, planşet və kompüterdə işləyir.",
     // About
     aboutTitle:"Haqqımda", aboutSub:"Məni nə motivasiya edir və necə işləyirəm.",
-    aboutP1:'Mən <strong>Sumqayıt İstedad Liseyinin</strong> şagirdiyəm, robototexnika, kibertəhlükəsizlik və tətbiqi süni intellektə böyük marağım var. İdeyanı eskizdən (Fusion 360 / FreeCAD) işlək prototipə çevirməyi və prosesi sənədləşdirməyi sevirəm.',
+    aboutP1:'Mən <strong>Sumqayıt 29 nömrəli məktəbin</strong> şagirdiyəm, robototexnika, kibertəhlükəsizlik və tətbiqi süni intellektə böyük marağım var. İdeyanı eskizdən (Fusion 360 / FreeCAD) işlək prototipə çevirməyi və prosesi sənədləşdirməyi sevirəm.',
     aboutP2:'Yarışlar mənə məhdudiyyətlər altında işləməyi, tez iterasiya etməyi və uğursuzluqlardan öyrənməyi öyrətdi — RoboCross, WRO Virtual Games, SAF və ya Teknofest olsun. Komanda işini, aydın ünsiyyəti və məsuliyyəti dəyərləndirirəm.',
     aboutP3:'Həmçinin <strong>Sumqayıt Gənclər Evi</strong> və <strong>Bir Könüllü</strong> ilə könüllülük edirəm, tədbirlərə və təlimlərə kömək edirəm (məs., "Data sferasında iş bölgüləri", 2026).',
     aboutLikeTitle:"Necə biriyəm",
