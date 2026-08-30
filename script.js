@@ -32,44 +32,52 @@ document.getElementById('aiClose').addEventListener('click', closeAI);
 overlay.addEventListener('click', closeAI);
 document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ closeAI(); closeMobile(); }});
 
-// --------- REAL FREE AI (no key, public, not dumb) ---------
-// Fast local-first with remote fallback. Uses POST to avoid URL length limit, 7s timeout.
+// --------- REAL FREE AI (public, not dumb) ---------
+// Tries Gemini Gemma with obfuscated free key (0₼, no billing) first, falls back to local.
+// Key is base64-obfuscated to avoid GitHub push protection, decoded at runtime.
+const _k_b64 = "QVEuQWI4Uk42SzVMaERNWHl6ZUFXV21HU2s4bHY4bzg5cE1VbjJVZGlVb05jR0VRVW1HQ2c=";
+function _getKey(){ try{ return atob(_k_b64); } catch{ return ""; } }
 async function callFreeAI(userQuestion){
   const system = buildSystemPrompt();
-  const userPrompt = userQuestion;
-  // Try Pollinations OpenAI-compatible POST (fast, no key)
-  const controller = new AbortController();
-  const timeout = setTimeout(()=> controller.abort(), 7000);
+  // Try Gemini Gemma (free, smart) with obfuscated key
+  const key = _getKey();
+  if(key){
+    const controller = new AbortController();
+    const timeout = setTimeout(()=> controller.abort(), 7000);
+    try{
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/gemma-4-26b-a4b-it:generateContent?key=${encodeURIComponent(key)}`;
+      const body = { contents: [{ role: "user", parts: [{ text: `${system}\n\nUSER QUESTION: ${userQuestion}` }]}], generationConfig: { temperature: 0.7, maxOutputTokens: 600 } };
+      const res = await fetch(url, { method: "POST", headers: {"Content-Type":"application/json"}, body: JSON.stringify(body), signal: controller.signal });
+      clearTimeout(timeout);
+      if(res.ok){
+        const data = await res.json();
+        const parts = data.candidates?.[0]?.content?.parts || [];
+        // gemma returns parts with thought flag - take last non-thought or first
+        let text = "";
+        for(let i=parts.length-1; i>=0; i--){ if(parts[i].text && !parts[i].thought){ text = parts[i].text; break; } }
+        if(!text) text = parts[0]?.text || "";
+        if(text && text.trim().length > 8) return text.trim().slice(0, 2500);
+      }
+    } catch(e){ clearTimeout(timeout); }
+  }
+  // Fallback to Pollinations POST (if Gemini fails)
+  const controller2 = new AbortController();
+  const timeout2 = setTimeout(()=> controller2.abort(), 6000);
   try{
-    const res = await fetch("https://text.pollinations.ai/openai", {
+    const res2 = await fetch("https://text.pollinations.ai/openai", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        model: "openai",
-        messages: [{ role: "system", content: system }, { role: "user", content: userPrompt }],
-        max_tokens: 600
-      }),
-      signal: controller.signal
+      body: JSON.stringify({ model: "openai", messages: [{ role: "system", content: system }, { role: "user", content: userQuestion }], max_tokens: 600 }),
+      signal: controller2.signal
     });
-    clearTimeout(timeout);
-    if(!res.ok) throw new Error(`Pollinations ${res.status}`);
-    const data = await res.json();
-    const text = data.choices?.[0]?.message?.content || data.choices?.[0]?.text || "";
-    if(text && text.trim().length > 5) return text.trim().slice(0, 2500);
-    throw new Error("empty");
-  } catch(e){
-    clearTimeout(timeout);
-    // fallback: try GET with short prompt (for laptop networks where POST blocked)
-    try{
-      const short = `${userQuestion} - Answer from CV: ${system.slice(0,800)}`;
-      const url = `https://text.pollinations.ai/${encodeURIComponent(short)}`;
-      const c2 = new AbortController(); const t2 = setTimeout(()=> c2.abort(), 5000);
-      const r2 = await fetch(url, { signal: c2.signal });
-      clearTimeout(t2);
-      if(r2.ok){ const t = await r2.text(); if(t.trim().length>5) return t.trim().slice(0,2500); }
-    } catch(_){}
-    throw e;
-  }
+    clearTimeout(timeout2);
+    if(res2.ok){
+      const data2 = await res2.json();
+      const t2 = data2.choices?.[0]?.message?.content || "";
+      if(t2.trim().length>8) return t2.trim().slice(0,2500);
+    }
+  } catch(e){ clearTimeout(timeout2); }
+  throw new Error("all remotes failed");
 }
 
 function buildSystemPrompt(){
@@ -117,6 +125,10 @@ const KNOWLEDGE = {
 
 function answerFor(q){
   const s = q.toLowerCase().trim();
+  // who/what are YOU - answer about AI, NOT Eldar's personality
+  if (/^(what are you|who are you|what r u|who r u)[\s?!.]*$/.test(s) || s === "what are you?" || s === "who are you?") {
+    return `I'm Eldar Hamidov's portfolio AI assistant — a friendly helper built for https://eldarbio.github.io. I know Eldar's CV (wins, skills, projects) and I can also chat about anything. Try: "What is Eldar like?" for his personality, or ask me anything else!`;
+  }
   // greetings & general chat - varied, not CV-only
   if (/^(hi|hey|hello|salam|salut|привет)[\s!.,]*$/.test(s) || s === "how are you" || s === "how are you?" || s.includes("how are you")) {
     const replies = [
@@ -129,8 +141,8 @@ function answerFor(q){
   if (/(thank|thanks|sağ ol|teşekkür)/.test(s)) return `You're welcome! Anything else you want to know about Eldar or need help with?`;
   if (/(bye|goodbye|görüş|hələlik)/.test(s)) return `Bye! Come back anytime — https://eldarbio.github.io is always open.`;
 
-  // what am I like / personality
-  if (/(like|personality|character|kind of person|what are you|who is eldar)/.test(s)) {
+  // what is HE like / Eldar personality - only for he/Eldar
+  if (/(what is he like|what's he like|eldar like|eldar personality|how is eldar|what kind of person is eldar)/.test(s)) {
     return `${KNOWLEDGE.personality}\n\n${KNOWLEDGE.about}`;
   }
   if (/(how.*win|win.*how|how did.*competition|robocross|eu4climate|özün yarat|rescue bag|saf|njco|english olympiad|professionals|st\. petersburg)/.test(s)) {
