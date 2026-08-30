@@ -27,7 +27,10 @@ function closeAI(){
   panel.classList.remove('open'); overlay.classList.remove('open');
   panel.setAttribute('aria-hidden','true'); overlay.setAttribute('aria-hidden','true');
 }
-document.getElementById('aiToggle').addEventListener('click', openAI);
+const aiToggle = document.getElementById('aiToggle') || document.getElementById('aiFloat');
+const aiFloat = document.getElementById('aiFloat');
+if(aiToggle) aiToggle.addEventListener('click', openAI);
+if(aiFloat && aiFloat.id !== 'aiToggle') aiFloat.addEventListener('click', openAI);
 document.getElementById('aiClose').addEventListener('click', closeAI);
 overlay.addEventListener('click', closeAI);
 document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ closeAI(); closeMobile(); }});
@@ -307,7 +310,7 @@ document.querySelectorAll('[data-q]').forEach(b=>{
 // --- Language Switch EN/AZ ---
 const I18N = {
   en: {
-    navAbout:"About", navSkills:"Skills", navAchievements:"Achievements", navProjects:"Projects", navContact:"Contact", askAI:"Ask AI about me",
+    navAbout:"About", navSkills:"Skills", navAchievements:"Achievements", navProjects:"Projects", navContact:"Contact", askAI:"Ask AI about me", views:"views", uniqueViews:"unique per device",
     heroEyebrow:"Sumgait • İstedad Liseyi • Class of 2023–present", heroSubtitle:"Student • Developer • Robotics & Cybersecurity enthusiast",
     heroLead:"I build robots, explore AI and compete internationally — from RoboCross and WRO to NJCO and the International AI Olympiad. Focused on clean engineering, practical problem-solving and continuous learning.",
     heroBtnAbout:"About me", heroBtnAch:"Achievements",
@@ -321,7 +324,7 @@ const I18N = {
     aiTitle:"Ask about Eldar", aiSub:"Answers only from your CV + the knowledge you provide. No personal numbers."
   },
   az: {
-    navAbout:"Haqqımda", navSkills:"Bacarıqlar", navAchievements:"Nailiyyətlər", navProjects:"Layihələr", navContact:"Əlaqə", askAI:"AI-dan soruş",
+    navAbout:"Haqqımda", navSkills:"Bacarıqlar", navAchievements:"Nailiyyətlər", navProjects:"Layihələr", navContact:"Əlaqə", askAI:"AI-dan soruş", views:"baxış", uniqueViews:"hər cihaz üçün 1 dəfə",
     heroEyebrow:"Sumqayıt • İstedad Liseyi • 2023–indiyədək", heroSubtitle:"Şagird • Developer • Robototexnika və Kibertəhlükəsizlik həvəskarı",
     heroLead:"Robotlar qururam, süni intellekti kəşf edirəm və beynəlxalq yarışlarda iştirak edirəm — RoboCross və WRO-dan NJCO və Beynəlxalq AI Olimpiadasına qədər. Təmiz mühəndislik və praktik problem həllinə fokuslanıram.",
     heroBtnAbout:"Haqqımda", heroBtnAch:"Nailiyyətlər",
@@ -352,4 +355,39 @@ function setLang(lang){
 document.querySelectorAll(".lang-btn").forEach(b=> b.addEventListener("click", ()=> setLang(b.dataset.lang)));
 // init
 setLang(localStorage.getItem("site_lang") || "en");
+
+// --- Unique View Count (1 per device, not on refresh) ---
+(function(){
+  const el = document.getElementById("viewCount");
+  if(!el) return;
+  const KEY = "view_counted_eldarbio";
+  const NS = "eldarbio.github.io";
+  const NAME = "visits";
+  const hasCounted = localStorage.getItem(KEY) === "1";
+  // Try CountAPI, fallback to local only
+  async function update(){
+    try{
+      const url = hasCounted
+        ? `https://api.countapi.xyz/get/${NS}/${NAME}`
+        : `https://api.countapi.xyz/hit/${NS}/${NAME}`;
+      const res = await fetch(url, { cache: "no-store" });
+      if(res.ok){
+        const data = await res.json();
+        if(typeof data.value === "number"){
+          el.textContent = data.value.toLocaleString();
+          if(!hasCounted) localStorage.setItem(KEY, "1");
+          return;
+        }
+      }
+      throw new Error("no value");
+    } catch(e){
+      // fallback: local counter (unique per device)
+      let n = parseInt(localStorage.getItem("local_views") || "0", 10);
+      if(!hasCounted){ n += 1; localStorage.setItem("local_views", String(n)); localStorage.setItem(KEY, "1"); }
+      else if(n===0){ n = 1; localStorage.setItem("local_views", "1"); }
+      el.textContent = n.toLocaleString() + " (local)";
+    }
+  }
+  update();
+})();
 // (Key UI removed per user request - key will be hardcoded in HARDCODED_GEMINI_KEY)

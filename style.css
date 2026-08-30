@@ -68,6 +68,17 @@ h1{font-size:clamp(2.4rem,6vw,4rem); margin:.2em 0}
   padding:0 14px; height:38px; border-radius:999px; font-weight:600; cursor:pointer; display:flex; align-items:center; gap:.5rem;
 }
 .ai-dot{width:8px; height:8px; background:#36c46a; border-radius:50%; box-shadow:0 0 0 6px rgba(54,196,106,.18)}
+.ai-float{
+  position:fixed; right:18px; top:50%; transform:translateY(-50%);
+  width:46px; height:46px; border-radius:50%;
+  background:var(--text); color:var(--bg); border:1px solid var(--text);
+  display:grid; place-items:center; cursor:pointer; z-index:32;
+  box-shadow:0 6px 18px rgba(0,0,0,.22);
+  animation:floatY 2.8s ease-in-out infinite;
+}
+.ai-float-dot{position:absolute; top:5px; right:5px; width:8px; height:8px; background:#36c46a; border-radius:50%; border:2px solid var(--text); box-shadow:0 0 0 4px rgba(54,196,106,.18)}
+@keyframes floatY{ 0%,100%{ transform:translateY(-50%) translateY(0) } 50%{ transform:translateY(-50%) translateY(-8px) } }
+@media(max-width:640px){ .ai-float{ right:12px; width:42px; height:42px } }
 .menu-btn{display:none}
 #themeToggle .icon-moon{display:none}
 html.dark #themeToggle .icon-sun{display:none}
