@@ -33,15 +33,43 @@ overlay.addEventListener('click', closeAI);
 document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ closeAI(); closeMobile(); }});
 
 // --------- REAL FREE AI (no key, public, not dumb) ---------
-// Pollinations free - 0₼, no API key, no warning, not stealable. Public can use it directly.
-// Model is openai (Llama/Mistral) - smart enough. Falls back to local if offline.
+// Fast local-first with remote fallback. Uses POST to avoid URL length limit, 7s timeout.
 async function callFreeAI(userQuestion){
-  const prompt = `${buildSystemPrompt()}\n\nUSER QUESTION: ${userQuestion}\n\nAnswer concisely, helpful, professional.`;
-  const url = `https://text.pollinations.ai/${encodeURIComponent(prompt)}`;
-  const res = await fetch(url, { method: "GET" });
-  if(!res.ok) throw new Error(`Pollinations ${res.status}`);
-  const text = await res.text();
-  return text.trim().slice(0, 2500) || null;
+  const system = buildSystemPrompt();
+  const userPrompt = userQuestion;
+  // Try Pollinations OpenAI-compatible POST (fast, no key)
+  const controller = new AbortController();
+  const timeout = setTimeout(()=> controller.abort(), 7000);
+  try{
+    const res = await fetch("https://text.pollinations.ai/openai", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "openai",
+        messages: [{ role: "system", content: system }, { role: "user", content: userPrompt }],
+        max_tokens: 600
+      }),
+      signal: controller.signal
+    });
+    clearTimeout(timeout);
+    if(!res.ok) throw new Error(`Pollinations ${res.status}`);
+    const data = await res.json();
+    const text = data.choices?.[0]?.message?.content || data.choices?.[0]?.text || "";
+    if(text && text.trim().length > 5) return text.trim().slice(0, 2500);
+    throw new Error("empty");
+  } catch(e){
+    clearTimeout(timeout);
+    // fallback: try GET with short prompt (for laptop networks where POST blocked)
+    try{
+      const short = `${userQuestion} - Answer from CV: ${system.slice(0,800)}`;
+      const url = `https://text.pollinations.ai/${encodeURIComponent(short)}`;
+      const c2 = new AbortController(); const t2 = setTimeout(()=> c2.abort(), 5000);
+      const r2 = await fetch(url, { signal: c2.signal });
+      clearTimeout(t2);
+      if(r2.ok){ const t = await r2.text(); if(t.trim().length>5) return t.trim().slice(0,2500); }
+    } catch(_){}
+    throw e;
+  }
 }
 
 function buildSystemPrompt(){
@@ -129,20 +157,33 @@ function addMsg(text, who){
   messages.scrollTop = messages.scrollHeight;
 }
 
+let isAnswering = false;
 async function handleQuestion(q){
+  // allow typing another question even while waiting - don't block input
   addMsg(q, 'user');
   const typing = document.createElement('div');
   typing.className = 'msg ai';
-  typing.textContent = 'Thinking (real AI)...';
+  typing.textContent = 'Thinking...';
   messages.appendChild(typing);
   messages.scrollTop = messages.scrollHeight;
+  // keep input enabled so user can ask another thing while waiting
+  input.disabled = false; input.focus();
+  isAnswering = true;
   try{
+    // race remote vs 7s, fallback to local so never stuck
     let answer = null;
-    try{ answer = await callFreeAI(q); } catch(err){ answer = null; }
-    if(!answer || answer.length < 10) answer = answerFor(q);
+    try{
+      const remote = callFreeAI(q);
+      const fallbackTimer = new Promise((_, rej)=> setTimeout(()=> rej(new Error("timeout")), 7500));
+      answer = await Promise.race([remote, fallbackTimer]);
+    } catch(err){ answer = null; }
+    if(!answer || answer.length < 8) answer = answerFor(q);
     typing.textContent = answer;
   } catch(e){
     typing.textContent = answerFor(q);
+  } finally {
+    isAnswering = false;
+    messages.scrollTop = messages.scrollHeight;
   }
 }
 
