@@ -70,19 +70,19 @@ h1{font-size:clamp(2.4rem,6vw,4rem); margin:.2em 0}
 .ai-dot{width:8px; height:8px; background:#36c46a; border-radius:50%; box-shadow:0 0 0 6px rgba(54,196,106,.18)}
 .ai-float{
   position:fixed; right:18px; bottom:18px; top:auto; transform:none;
-  width:44px; height:44px; border-radius:14px;
+  width:42px; height:42px; border-radius:6px;
   background:var(--card); color:var(--text); border:1px solid var(--border);
   display:flex; align-items:center; justify-content:center; gap:0; cursor:pointer; z-index:32;
-  box-shadow:0 6px 18px rgba(0,0,0,.12);
+  box-shadow:0 4px 14px rgba(0,0,0,.11);
   animation:floatY 3.2s ease-in-out infinite;
-  transition: box-shadow .2s, border-color .2s, transform .2s, width .28s, border-radius .2s;
+  transition: box-shadow .2s, border-color .2s, transform .2s, width .28s;
   overflow:hidden;
   -webkit-tap-highlight-color:transparent;
 }
 .ai-float:hover{
   border-color:var(--accent);
-  box-shadow:0 8px 22px rgba(0,0,0,.16);
-  width:auto; padding:0 13px 0 10px; gap:.45rem; border-radius:999px;
+  box-shadow:0 6px 18px rgba(0,0,0,.14);
+  width:auto; padding:0 12px 0 10px; gap:.42rem; border-radius:6px;
 }
 .ai-float-icon{
   display:grid; place-items:center; flex:0 0 auto;
@@ -102,14 +102,14 @@ h1{font-size:clamp(2.4rem,6vw,4rem); margin:.2em 0}
   cursor:grabbing; transform:none;
   box-shadow:0 10px 28px rgba(0,0,0,.2)!important;
   border-color:var(--accent)!important;
-  width:auto; padding:0 13px 0 10px; gap:.45rem; border-radius:999px;
+  width:auto; padding:0 12px 0 10px; gap:.42rem; border-radius:6px;
 }
 .ai-float--dragging .ai-float-label{ max-width:130px; opacity:1; }
 @keyframes floatY{ 0%,100%{ transform:translateY(0) } 50%{ transform:translateY(-6px) } }
 .ai-float--moved{ animation:floatY 3.2s ease-in-out infinite; }
 @media(max-width:640px){
-  .ai-float{ right:12px; bottom:14px; width:42px; height:42px; border-radius:13px }
-  .ai-float:hover{ width:auto; padding:0 12px 0 9px }
+  .ai-float{ right:12px; bottom:14px; width:40px; height:40px; border-radius:6px }
+  .ai-float:hover{ width:auto; padding:0 11px 0 9px }
 }
 .menu-btn{display:none}
 #themeToggle .icon-moon{display:none}
