@@ -159,12 +159,12 @@ html.dark #themeToggle .icon-moon{display:block}
 .msg.ai{background:#fff; color:#1d1d1f; border-top-left-radius:6px; border-color:#e8e2d9}
 html.dark .msg.ai{background:#2a2a28; color:#f2efe9; border-color:#3a3a38}
 .msg.user{background:var(--text); color:var(--bg); align-self:flex-end; border-top-right-radius:6px; border-color:var(--text)}
-.ai-suggestions{display:flex; gap:.5rem; flex-wrap:wrap; padding:.75rem 1rem; border-top:1px solid var(--border); background:var(--card)}
-.ai-suggestions button{font-size:.82rem; padding:.48rem .78rem; border-radius:999px; border:1px solid var(--border); background:#fff; color:#1d1d1f; cursor:pointer; font-weight:600; transition:.15s; box-shadow:0 1px 4px rgba(0,0,0,.06)}
-.ai-suggestions button:hover{background:var(--bg-soft); border-color:var(--accent); color:var(--accent)}
-html.dark .ai-suggestions{background:#1e1e1c}
-html.dark .ai-suggestions button{background:#f2efe9; border-color:#f2efe9; color:#131312; box-shadow:0 2px 8px rgba(0,0,0,.35)}
-html.dark .ai-suggestions button:hover{background:#c99a5a; border-color:#c99a5a; color:#131312}
+.ai-suggestions{display:flex; gap:.6rem; flex-wrap:wrap; padding:.85rem 1rem; border-top:1px solid var(--border); background:var(--card)}
+.ai-suggestions button{font-size:.84rem; padding:.52rem .85rem; border-radius:999px; border:2px solid #8a5a2b; background:#ffffff; color:#1d1d1f; cursor:pointer; font-weight:700; letter-spacing:.01em; transition:.15s; box-shadow:0 2px 6px rgba(0,0,0,.09)}
+.ai-suggestions button:hover{background:#f1ece6; border-color:#8a5a2b; color:#8a5a2b; transform:translateY(-1px)}
+html.dark .ai-suggestions{background:#1e1e1c; border-top-color:#2a2a28}
+html.dark .ai-suggestions button{background:#c99a5a; border:2px solid #c99a5a; color:#131312; box-shadow:0 3px 10px rgba(0,0,0,.45), 0 0 0 1px rgba(255,255,255,.08)}
+html.dark .ai-suggestions button:hover{background:#e0b27a; border-color:#e0b27a; color:#131312; transform:translateY(-1px)}
 .ai-form{display:flex; gap:.5rem; padding:1rem; border-top:1px solid var(--border)}
 .ai-form input{flex:1; padding:.7rem .9rem; border-radius:999px; border:1px solid var(--border); background:var(--bg); color:var(--text)}
 .ai-form button{padding:.7rem 1rem; border-radius:999px; border:1px solid var(--text); background:var(--text); color:var(--bg); font-weight:600; cursor:pointer}
