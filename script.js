@@ -82,7 +82,7 @@ async function callFreeAI(userQuestion){
 
 function buildSystemPrompt(){
   const extra = (typeof KNOWLEDGE_EXTRA !== "undefined" && KNOWLEDGE_EXTRA) ? `\n\nEXTRA INFO PROVIDED BY ELDAR:\n${KNOWLEDGE_EXTRA}\n` : "";
-  return `You are Eldar Hamidov's friendly portfolio AI. You have his CV below, but you are also a helpful conversational AI - you can answer ANY question naturally, with personality, not just CV. For questions about Eldar, use CV accurately. For general chat (how are you, jokes, help, etc.), answer helpfully and naturally. Never say "I can answer from the CV only". Be varied, not repetitive. No phone/birthdate. Language: match user's language (AZ/EN/TR/RU).
+  return `You are Eldar Hamidov's portfolio AI. Your ONLY purpose is to answer about Eldar Hamidov using his CV below. Do NOT engage in general chat. If asked about yourself, briefly say you are Eldar's portfolio assistant. Redirect general questions to Eldar's topics. No phone/birthdate. Language: match user's language.
 
 ELDAR CV:
 NAME: ${KNOWLEDGE.name} <${KNOWLEDGE.email}>
@@ -93,9 +93,7 @@ SKILLS: ${KNOWLEDGE.skills}
 LINKS: ${KNOWLEDGE.links}
 WINS: ${Object.entries(KNOWLEDGE.how_win_examples).map(([k,v])=> `${k}: ${v}`).join(" | ")}
 ADVICE: ${KNOWLEDGE.how_to_win_advice}
-SOURCES: ${KNOWLEDGE.sources}${extra}
-
-Style: concise, warm, varied, never repeat same template.`;
+SOURCES: ${KNOWLEDGE.sources}${extra}`;
 }
 
 // --------- KNOWLEDGE BASE ---------
@@ -125,21 +123,16 @@ const KNOWLEDGE = {
 
 function answerFor(q){
   const s = q.toLowerCase().trim();
-  // who/what are YOU - answer about AI, NOT Eldar's personality
+  // who/what are YOU - answer about AI, strictly about Eldar
   if (/^(what are you|who are you|what r u|who r u)[\s?!.]*$/.test(s) || s === "what are you?" || s === "who are you?") {
-    return `I'm Eldar Hamidov's portfolio AI assistant — a friendly helper built for https://eldarbio.github.io. I know Eldar's CV (wins, skills, projects) and I can also chat about anything. Try: "What is Eldar like?" for his personality, or ask me anything else!`;
+    return `I'm Eldar Hamidov's portfolio assistant for https://eldarbio.github.io — I answer anything about Eldar (wins, skills, projects, sources). Try: "What is Eldar like?"`;
   }
-  // greetings & general chat - varied, not CV-only
+  // greetings - redirect to Eldar
   if (/^(hi|hey|hello|salam|salut|привет)[\s!.,]*$/.test(s) || s === "how are you" || s === "how are you?" || s.includes("how are you")) {
-    const replies = [
-      `Hey! I'm doing great — Eldar's assistant here. How can I help you today? You can ask about Eldar or anything else!`,
-      `Hi there! All good on my side. Want to know about Eldar's projects, or just chat?`,
-      `Hello! I'm Eldar's AI — ready to help. Ask me about his wins, skills, or whatever you need.`
-    ];
-    return replies[Math.floor(Math.random()*replies.length)];
+    return `Hello! I'm Eldar's assistant — I answer about Eldar Hamidov. Ask me: "What is Eldar like?", "How did he win RoboCross?", "What sources did he use?"`;
   }
-  if (/(thank|thanks|sağ ol|teşekkür)/.test(s)) return `You're welcome! Anything else you want to know about Eldar or need help with?`;
-  if (/(bye|goodbye|görüş|hələlik)/.test(s)) return `Bye! Come back anytime — https://eldarbio.github.io is always open.`;
+  if (/(thank|thanks|sağ ol|teşekkür)/.test(s)) return `You're welcome! Ask me anything about Eldar.`;
+  if (/(bye|goodbye|görüş|hələlik)/.test(s)) return `Bye! Ask anytime about Eldar at https://eldarbio.github.io`;
 
   // what is HE like / Eldar personality - only for he/Eldar
   if (/(what is he like|what's he like|eldar like|eldar personality|how is eldar|what kind of person is eldar)/.test(s)) {
@@ -159,13 +152,8 @@ function answerFor(q){
   if (/(education|school|language)/.test(s)) return KNOWLEDGE.education;
   if (/(skill|python|c\+\+|fusion|solid)/.test(s)) return KNOWLEDGE.skills;
   if (/(contact|email|gmail|github|youtube|instagram)/.test(s)) return `${KNOWLEDGE.name} — ${KNOWLEDGE.email}\n${KNOWLEDGE.links}`;
-  // general fallback - not repetitive, helpful, uses brain
-  const generals = [
-    `Good question! I'm Eldar's assistant — I can chat about anything, and for Eldar-specific stuff I use his CV. What would you like to know? Try: "What is Eldar like?" or ask me anything else.`,
-    `I'm here to help! For Eldar's story I pull from his CV, but I can also just chat. What's on your mind?`,
-    `Hey! I can talk about Eldar (wins, skills, sources) or help with general questions — just ask naturally. For Eldar: eldarhamidov2009@gmail.com`
-  ];
-  return generals[Math.floor(Math.random()*generals.length)] + `\n\nQuick ideas: • What is Eldar like? • How did he win RoboCross? • How to win?`;
+  // general fallback - strictly about Eldar, no just chat
+  return `I answer about Eldar Hamidov. Try:\n• What is Eldar like?\n• How did he win RoboCross / EU4Climate / NJCO?\n• What should I do to win?\n• What sources did he use?\n\nContact: ${KNOWLEDGE.email} — ${KNOWLEDGE.links}`;
 }
 
 const messages = document.getElementById('aiMessages');
