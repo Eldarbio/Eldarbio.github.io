@@ -198,13 +198,20 @@
   <p class="muted small" style="display:flex; align-items:center; gap:.4rem"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg><span id="viewCount">—</span> <span data-i18n="views">views</span></p>
 </footer>
 
-<!-- Floating AI button — completely new: typographic AI badge -->
+<!-- Floating AI button — SO different: EH-style geometric AI -->
 <button id="aiFloat" class="ai-float" aria-label="Ask AI about Eldar">
   <span class="ai-float-dot"></span>
   <span class="ai-float-icon" aria-hidden="true">
-    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect x="3.2" y="3.2" width="17.6" height="17.6" rx="5.5" stroke="currentColor" stroke-width="1.5"/>
-      <text x="12" y="15.2" text-anchor="middle" font-family="Newsreader, Instrument Sans, serif" font-size="8.5" font-weight="700" fill="currentColor" letter-spacing="0.4">AI</text>
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Outer slim frame — matches your EH logo geometry -->
+      <rect x="2.5" y="2.5" width="19" height="19" rx="4.5" stroke="currentColor" stroke-width="1.35"/>
+      <!-- Geometric A — two slanted blocks -->
+      <path d="M8.2 15.5L11 7.2h1.4L15.2 15.5h-1.5L12.4 11H10.1l-1.3 4.5h-1.5Z" fill="currentColor" stroke="none"/>
+      <path d="M10.6 9.8h2.2l-.7 2.1h-1.5z" fill="var(--card)"/>
+      <!-- Geometric I — single block with gap -->
+      <rect x="16.2" y="7.2" width="1.6" height="8.3" rx="0.7" fill="currentColor"/>
+      <!-- Gold joint dot — like your logo joint -->
+      <circle cx="15.1" cy="8.2" r="1.1" fill="#c9b896" stroke="none"/>
     </svg>
   </span>
   <span class="ai-float-label" data-i18n="askAI">Ask AI about me</span>
@@ -236,6 +243,6 @@
 
 </aside>
 
-<script src="script.js?v=12"></script>
+<script src="script.js?v=13"></script>
 </body>
 </html>
