@@ -147,6 +147,9 @@ html.dark #themeToggle .icon-moon{display:block}
 .stats li{display:grid; gap:.15rem}
 .k{font-size:.72rem; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); font-weight:600}
 .v{font-size:.92rem}
+.hero-photo{width:100%; height:320px; border-radius:var(--radius); overflow:hidden; border:1px solid var(--border); box-shadow:var(--shadow); background:linear-gradient(180deg, var(--bg-soft) 0%, var(--card) 100%); position:relative; margin-bottom:1rem}
+.hero-photo img{width:100%; height:100%; object-fit:cover; object-position:center 20%; display:block; filter:contrast(1.03) saturate(1.05)}
+.hero-photo::after{content:""; position:absolute; inset:0; background:linear-gradient(180deg, transparent 62%, color-mix(in srgb, var(--card) 28%, transparent) 100%); pointer-events:none}
 .card-note{font-size:.8rem; color:var(--muted); margin:.7rem 0 0}
 
 /* Sections */

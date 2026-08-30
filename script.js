@@ -363,7 +363,7 @@ function answerFor(q){
   else if (/(bye|goodbye|gorus|hələlik|helalik)/.test(s)) ans = `Bye! Ask anytime about Eldar at https://eldarbio.github.io`;
   else if (/(what is he like|whats he like|eldar like|eldar personality|how is eldar|what kind of person is eldar)/.test(s)) {
     ans = `${KNOWLEDGE.personality}\n\n${KNOWLEDGE.about}`;
-  } else if (/(what.*competition.*won|what.*won.*competition|which.*competition.*won|competitions.*won|competitions.*win|did he win|has he won|list.*win)/.test(s)) {
+  } else if (/(what.*competition.*won|what.*won.*competition|which.*competition.*won|competitions.*won|competitions.*win|did he win|has he won|list.*win)/.test(s) || (s.includes("compet") && (s.includes("won") || s.includes("win") || s.includes("qazan"))) ) {
     ans = `Eldar's verified WINS (not finalists):\n• EU4Climate "Özün yarat" (parça) — 1st (2020)\n• RoboCross Online Challenge (Egypt) — 2nd worldwide as team (2020)\n• Yaz Elm Festivalı (BMU) — 3rd (2021)\n• ALP Logo — 4th (2022)\n• SAF 2023 "Rescue Bag During Earthquake" — Winner, Innovative Exhibition (2023)\n• Neo Science Olympiad — 3rd\n• NJCO 2025 — 2nd\n• USA International English Olympiad — 1st (2025)\n• Professionallar St Petersburg — 1st (2025)\n• AIRO Azerbaijan Robotics Olympiad — 2nd (2026)\n• WRO Canada — 5th (counts as placement)\n\nNote: Finalists (WRO Panama, WRO Azerbaijan, SAF 2021, Teknofest 2022, Sabahın Alimləri etc.) are not counted as wins. Team achievements are marked as team.`;
   } else if (/(how.*win|win.*how|how did.*competition|robocross|eu4climate|özün yarat|rescue bag|saf|njco|english olympiad|professionals|st\. petersburg)/.test(s)) {
     if (s.includes('robocross')) ans = KNOWLEDGE.how_win_examples.robocross;
