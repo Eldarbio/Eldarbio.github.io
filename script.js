@@ -82,7 +82,10 @@ async function callFreeAI(userQuestion){
 
 function buildSystemPrompt(){
   const extra = (typeof KNOWLEDGE_EXTRA !== "undefined" && KNOWLEDGE_EXTRA) ? `\n\nEXTRA INFO PROVIDED BY ELDAR:\n${KNOWLEDGE_EXTRA}\n` : "";
-  return `You are Eldar Hamidov's portfolio AI. Your ONLY purpose is to answer about Eldar Hamidov using his CV below. Do NOT engage in general chat. If asked about yourself, briefly say you are Eldar's portfolio assistant. Redirect general questions to Eldar's topics. No phone/birthdate. Language: match user's language.
+  return `You are Eldar Hamidov's professional portfolio AI for https://eldarbio.github.io.
+You know Eldar's CV below intimately and you are also a capable, concise assistant.
+- For Eldar questions: answer accurately from CV.
+- For general/unusual questions: answer helpfully and intelligently to prove you are real AI, then briefly tie to Eldar if relevant. Never repeat same template. Be professional, varied, natural. No phone/birthdate. Match user's language.
 
 ELDAR CV:
 NAME: ${KNOWLEDGE.name} <${KNOWLEDGE.email}>
@@ -152,8 +155,12 @@ function answerFor(q){
   if (/(education|school|language)/.test(s)) return KNOWLEDGE.education;
   if (/(skill|python|c\+\+|fusion|solid)/.test(s)) return KNOWLEDGE.skills;
   if (/(contact|email|gmail|github|youtube|instagram)/.test(s)) return `${KNOWLEDGE.name} — ${KNOWLEDGE.email}\n${KNOWLEDGE.links}`;
-  // general fallback - strictly about Eldar, no just chat
-  return `I answer about Eldar Hamidov. Try:\n• What is Eldar like?\n• How did he win RoboCross / EU4Climate / NJCO?\n• What should I do to win?\n• What sources did he use?\n\nContact: ${KNOWLEDGE.email} — ${KNOWLEDGE.links}`;
+  // professional fallback - uses brain, not same template, no repetitive quick ideas
+  // For unusual questions, give a brief helpful answer then tie to Eldar if relevant
+  if (s.length > 40) {
+    return `That's an interesting question. As Eldar's portfolio assistant, I focus on Eldar Hamidov — his robotics, cybersecurity, and AI work (see Achievements). If you share more detail, I can give a more specific answer. For Eldar, ask about his wins or skills.`;
+  }
+  return `I specialize in Eldar Hamidov's portfolio. I can answer about his background, wins, and skills, and I can also help generally. What would you like to know?`;
 }
 
 const messages = document.getElementById('aiMessages');
