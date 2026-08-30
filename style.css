@@ -70,7 +70,7 @@ h1{font-size:clamp(2.4rem,6vw,4rem); margin:.2em 0}
 .ai-dot{width:8px; height:8px; background:#36c46a; border-radius:50%; box-shadow:0 0 0 6px rgba(54,196,106,.18)}
 .ai-float{
   position:fixed; right:16px; bottom:16px; top:auto; transform:none;
-  width:48px; height:48px; border-radius:8px;
+  width:40px; height:40px; border-radius:8px;
   background:var(--card); color:var(--text); border:1px solid var(--border);
   display:flex; align-items:center; justify-content:center; padding:0; gap:0; cursor:pointer; z-index:32;
   box-shadow:0 3px 10px rgba(0,0,0,.11);
@@ -82,11 +82,11 @@ h1{font-size:clamp(2.4rem,6vw,4rem); margin:.2em 0}
 .ai-float:hover{
   border-color:var(--accent);
   box-shadow:0 6px 18px rgba(0,0,0,.14);
-  width:auto; padding:0 14px 0 12px; gap:.5rem; border-radius:8px;
+  width:auto; padding:0 12px 0 10px; gap:.45rem; border-radius:8px;
 }
 .ai-float-icon{
   display:grid; place-items:center; flex:0 0 auto;
-  width:48px; height:48px; color:var(--accent);
+  width:40px; height:40px; color:var(--accent);
 }
 .ai-float-label{
   font-size:.78rem; font-weight:600; white-space:nowrap; letter-spacing:.015em;
@@ -108,8 +108,8 @@ h1{font-size:clamp(2.4rem,6vw,4rem); margin:.2em 0}
 @keyframes floatY{ 0%,100%{ transform:translateY(0) } 50%{ transform:translateY(-6px) } }
 .ai-float--moved{ animation:floatY 3.2s ease-in-out infinite; }
 @media(max-width:640px){
-  .ai-float{ right:14px; bottom:16px; width:44px; height:44px; border-radius:8px }
-  .ai-float:hover{ width:auto; padding:0 13px 0 11px }
+  .ai-float{ right:14px; bottom:16px; width:36px; height:36px; border-radius:7px }
+  .ai-float:hover{ width:auto; padding:0 11px 0 9px }
 }
 .menu-btn{display:none}
 #themeToggle .icon-moon{display:none}
