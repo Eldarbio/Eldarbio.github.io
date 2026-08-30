@@ -47,7 +47,7 @@ h1{font-size:clamp(2.4rem,6vw,4rem); margin:.2em 0}
   backdrop-filter:blur(10px); border-bottom:1px solid var(--border);
 }
 .brand{display:flex; align-items:center; gap:.7rem; font-weight:700}
-.brand-logo{width:36px; height:36px; border-radius:10px; display:block; box-shadow:0 2px 8px rgba(0,0,0,.12)}
+.brand-logo{width:52px; height:52px; border-radius:14px; display:block; box-shadow:0 3px 12px rgba(0,0,0,.14)}
 .brand-mark{
   width:34px; height:34px; display:grid; place-items:center;
   background:var(--text); color:var(--bg); border-radius:10px; font-size:.85rem; letter-spacing:.04em;
