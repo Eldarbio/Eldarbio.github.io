@@ -343,41 +343,65 @@ const KNOWLEDGE = {
   links: "GitHub: github.com/Eldar-005 • YouTube: youtube.com/@EldarBuildLab • Instagram: instagram.com/eldar_hamidov09"
 };
 
+let _lastAnswer = "";
+let _recentQs = [];
 function answerFor(q){
   const s = q.toLowerCase().trim();
-  if (/^(what are you|who are you|what r u|who r u)[\s?!.]*$/.test(s) || s === "what are you?" || s === "who are you?") {
-    return `I'm Eldar Hamidov's portfolio assistant for https://eldarbio.github.io — I answer anything about Eldar (wins, skills, projects, sources). Try: "What is Eldar like?"`;
+  // Normalize: remove punctuation for matching
+  const n = s.replace(/[^a-z0-9 ]/g, " ").replace(/\s+/g," ").trim();
+  let ans = "";
+  if (/^(what are you|who are you|what r u|who r u)$/.test(n)) {
+    ans = `I'm Eldar Hamidov's portfolio assistant for https://eldarbio.github.io — I answer anything about Eldar (wins, skills, projects, sources). Try: "What is Eldar like?"`;
+  } else if (/^(hi|hey|hello|salam|salut|privet)$/.test(n) || n === "how are you" || s.includes("how are you")) {
+    const hellos = [
+      `Hello! I'm Eldar's assistant — I answer about Eldar Hamidov. Ask me: "What is Eldar like?", "How did he win RoboCross?", "What sources did he use?"`,
+      `Hey! I help with Eldar Hamidov's portfolio. Try: "What competitions did he win?" or "How should I prepare for NJCO?"`,
+      `Salam! I'm here for Eldar's projects and achievements. What do you want to know?`
+    ];
+    ans = hellos[Math.abs(hashCode(n)) % hellos.length];
+  } else if (/(thank|sağ ol|tesekkur)/.test(s)) ans = `You're welcome! Ask me anything about Eldar.`;
+  else if (/(bye|goodbye|gorus|hələlik|helalik)/.test(s)) ans = `Bye! Ask anytime about Eldar at https://eldarbio.github.io`;
+  else if (/(what is he like|whats he like|eldar like|eldar personality|how is eldar|what kind of person is eldar)/.test(s)) {
+    ans = `${KNOWLEDGE.personality}\n\n${KNOWLEDGE.about}`;
+  } else if (/(what.*competition.*won|what.*won.*competition|which.*competition.*won|competitions.*won|competitions.*win|did he win|has he won|list.*win)/.test(s)) {
+    ans = `Eldar's verified WINS (not finalists):\n• EU4Climate "Özün yarat" (parça) — 1st (2020)\n• RoboCross Online Challenge (Egypt) — 2nd worldwide as team (2020)\n• Yaz Elm Festivalı (BMU) — 3rd (2021)\n• ALP Logo — 4th (2022)\n• SAF 2023 "Rescue Bag During Earthquake" — Winner, Innovative Exhibition (2023)\n• Neo Science Olympiad — 3rd\n• NJCO 2025 — 2nd\n• USA International English Olympiad — 1st (2025)\n• Professionallar St Petersburg — 1st (2025)\n• AIRO Azerbaijan Robotics Olympiad — 2nd (2026)\n• WRO Canada — 5th (counts as placement)\n\nNote: Finalists (WRO Panama, WRO Azerbaijan, SAF 2021, Teknofest 2022, Sabahın Alimləri etc.) are not counted as wins. Team achievements are marked as team.`;
+  } else if (/(how.*win|win.*how|how did.*competition|robocross|eu4climate|özün yarat|rescue bag|saf|njco|english olympiad|professionals|st\. petersburg)/.test(s)) {
+    if (s.includes('robocross')) ans = KNOWLEDGE.how_win_examples.robocross;
+    else if (s.includes('eu4climate') || s.includes('parça') || s.includes('parca')) ans = KNOWLEDGE.how_win_examples.eu4climate;
+    else if (s.includes('saf') || s.includes('rescue') || s.includes('xilasedici')) ans = KNOWLEDGE.how_win_examples.saf2023;
+    else if (s.includes('njco') || s.includes('cyber')) ans = KNOWLEDGE.how_win_examples.njco;
+    else if (s.includes('english')) ans = KNOWLEDGE.how_win_examples.english;
+    else if (s.includes('st') || s.includes('peter') || s.includes('professional')) ans = KNOWLEDGE.how_win_examples.stpetersburg;
+    else ans = `Examples from CV:\n• ${KNOWLEDGE.how_win_examples.robocross}\n• ${KNOWLEDGE.how_win_examples.eu4climate}\n• ${KNOWLEDGE.how_win_examples.saf2023}\n• ${KNOWLEDGE.how_win_examples.njco}\n\nName a competition for details (e.g., "NJCO", "SAF 2023").`;
+  } else if (/(what should i do|how to win|how can i win|advice|tips|prepare)/.test(s)) ans = KNOWLEDGE.how_to_win_advice;
+  else if (/(source|what.*use|where.*learn|book|material)/.test(s)) ans = KNOWLEDGE.sources;
+  else if (/(education|school|language)/.test(s)) ans = KNOWLEDGE.education;
+  else if (/(skill|python|c\+\+|fusion|solid)/.test(s)) ans = KNOWLEDGE.skills;
+  else if (/(contact|email|gmail|github|youtube|instagram)/.test(s)) ans = `${KNOWLEDGE.name} — ${KNOWLEDGE.email}\n${KNOWLEDGE.links}`;
+  else {
+    // Generic fallback — varied so it never repeats verbatim
+    const fallbacks = [
+      `Good question! I focus on Eldar Hamidov — his robotics, cybersecurity and AI work (check Achievements). Tell me which area interests you — wins, skills, or projects — and I'll dive deeper.`,
+      `I can help with Eldar's portfolio — background, wins and how he prepared. For example, try: "How did he win NJCO?" or "What sources did he use for Bebras?"`,
+      `That's outside my main CV data, but I can still help. Eldar's key areas are robotics (WRO/RoboCross), cybersecurity (NJCO), and AI. What aspect do you want to explore?`,
+      `Interesting! As Eldar's assistant I know his verified achievements and methods best. Ask about a specific competition, skill (Python, Fusion 360), or his advice for winning.`
+    ];
+    // Pick based on question hash + recent history to avoid repeat
+    let idx = Math.abs(hashCode(s)) % fallbacks.length;
+    // If same question asked before, rotate
+    if(_recentQs.includes(n)) idx = (idx + _recentQs.length) % fallbacks.length;
+    ans = fallbacks[idx];
+    _recentQs.push(n); if(_recentQs.length>6) _recentQs.shift();
   }
-  if (/^(hi|hey|hello|salam|salut|привет)[\s!.,]*$/.test(s) || s === "how are you" || s === "how are you?" || s.includes("how are you")) {
-    return `Hello! I'm Eldar's assistant — I answer about Eldar Hamidov. Ask me: "What is Eldar like?", "How did he win RoboCross?", "What sources did he use?"`;
+  // Anti-repeat: if same answer as last time, append a nudge
+  if(ans === _lastAnswer){
+    const nudges = ["\n\n(P.S. Ask about a specific competition for a detailed story.)", "\n\n— Try a different angle, like 'How to prepare for WRO?'", ""];
+    ans += nudges[Math.abs(hashCode(s+n)) % nudges.length];
   }
-  if (/(thank|thanks|sağ ol|teşekkür)/.test(s)) return `You're welcome! Ask me anything about Eldar.`;
-  if (/(bye|goodbye|görüş|hələlik)/.test(s)) return `Bye! Ask anytime about Eldar at https://eldarbio.github.io`;
-  if (/(what is he like|what's he like|eldar like|eldar personality|how is eldar|what kind of person is eldar)/.test(s)) {
-    return `${KNOWLEDGE.personality}\n\n${KNOWLEDGE.about}`;
-  }
-  if (/(what.*competition.*won|what.*won.*competition|which.*competition.*won|competitions.*won|competitions.*win|did he win|has he won|list.*win)/.test(s)) {
-    return `Eldar's verified WINS (not finalists):\n• EU4Climate "Özün yarat" (parça) — 1st (2020)\n• RoboCross Online Challenge (Egypt) — 2nd worldwide as team (2020)\n• Yaz Elm Festivalı (BMU) — 3rd (2021)\n• ALP Logo — 4th (2022)\n• SAF 2023 "Rescue Bag During Earthquake" — Winner, Innovative Exhibition (2023)\n• Neo Science Olympiad — 3rd\n• NJCO 2025 — 2nd\n• USA International English Olympiad — 1st (2025)\n• Professionallar St Petersburg — 1st (2025)\n• AIRO Azerbaijan Robotics Olympiad — 2nd (2026)\n• WRO Canada — 5th (counts as placement)\n\nNote: Finalists (WRO Panama, WRO Azerbaijan, SAF 2021, Teknofest 2022, Sabahın Alimləri etc.) are not counted as wins. Team achievements are marked as team.`;
-  }
-  if (/(how.*win|win.*how|how did.*competition|robocross|eu4climate|özün yarat|rescue bag|saf|njco|english olympiad|professionals|st\. petersburg)/.test(s)) {
-    if (s.includes('robocross')) return KNOWLEDGE.how_win_examples.robocross;
-    if (s.includes('eu4climate') || s.includes('parça') || s.includes('parca')) return KNOWLEDGE.how_win_examples.eu4climate;
-    if (s.includes('saf') || s.includes('rescue') || s.includes('xilasedici')) return KNOWLEDGE.how_win_examples.saf2023;
-    if (s.includes('njco') || s.includes('cyber')) return KNOWLEDGE.how_win_examples.njco;
-    if (s.includes('english')) return KNOWLEDGE.how_win_examples.english;
-    if (s.includes('st') || s.includes('peter') || s.includes('professional')) return KNOWLEDGE.how_win_examples.stpetersburg;
-    return `Examples from CV:\n• ${KNOWLEDGE.how_win_examples.robocross}\n• ${KNOWLEDGE.how_win_examples.eu4climate}\n• ${KNOWLEDGE.how_win_examples.saf2023}\n• ${KNOWLEDGE.how_win_examples.njco}\n\nName a competition for details (e.g., "NJCO", "SAF 2023").`;
-  }
-  if (/(what should i do|how to win|how can i win|advice|tips|prepare)/.test(s)) return KNOWLEDGE.how_to_win_advice;
-  if (/(source|what.*use|where.*learn|book|material)/.test(s)) return KNOWLEDGE.sources;
-  if (/(education|school|language)/.test(s)) return KNOWLEDGE.education;
-  if (/(skill|python|c\+\+|fusion|solid)/.test(s)) return KNOWLEDGE.skills;
-  if (/(contact|email|gmail|github|youtube|instagram)/.test(s)) return `${KNOWLEDGE.name} — ${KNOWLEDGE.email}\n${KNOWLEDGE.links}`;
-  if (s.length > 40) {
-    return `That's an interesting question. As Eldar's portfolio assistant, I focus on Eldar Hamidov — his robotics, cybersecurity, and AI work (see Achievements). If you share more detail, I can give a more specific answer. For Eldar, ask about his wins or skills.`;
-  }
-  return `I specialize in Eldar Hamidov's portfolio. I can answer about his background, wins, and skills, and I can also help generally. What would you like to know?`;
+  _lastAnswer = ans;
+  return ans;
 }
+function hashCode(str){ let h=0; for(let i=0;i<str.length;i++){ h=((h<<5)-h)+str.charCodeAt(i); h|=0;} return h; }
 
 const messages = document.getElementById('aiMessages');
 const form = document.getElementById('aiForm');
@@ -624,16 +648,17 @@ function setLang(lang){
 document.querySelectorAll(".lang-btn").forEach(b=> b.addEventListener("click", ()=> setLang(b.dataset.lang)));
 setLang(localStorage.getItem("site_lang") || "en");
 
-// --- Unique View Count (global, +1 per new device, never on refresh) ---
+// --- View Count (global, +1 per new device, never on refresh) ---
 (function(){
-  const el = document.getElementById("viewCount");
-  if(!el) return;
+  const els = [document.getElementById("viewCount"), document.getElementById("viewCountTop")].filter(Boolean);
+  if(!els.length) return;
   const API = "https://countapi.mileshilliard.com/api/v1";
   const KEY = "eldarbio_portfolio_visits_v3";
   const FLAG = "view_counted_eldarbio_v3";
   const LOCAL_KEY = "local_view_count_v3";
   const hasCounted = localStorage.getItem(FLAG) === "1";
-  el.textContent = "…";
+  els.forEach(e=> e.textContent = "…");
+  function setAll(v){ els.forEach(e=> e.textContent = v); }
 
   async function tryFetch(url){
     const ctrl = new AbortController();
@@ -651,22 +676,18 @@ setLang(localStorage.getItem("site_lang") || "en");
 
   (async function(){
     const mode = hasCounted ? "get" : "hit";
-    // 1) Direct API
     let v = await tryFetch(`${API}/${mode}/${KEY}`);
-    // 2) Via CORS proxy if direct blocked (adblock, network filter)
     if(v === null) v = await tryFetch(`https://corsproxy.io/?${encodeURIComponent(`${API}/${mode}/${KEY}`)}`);
     if(v === null) v = await tryFetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(`${API}/${mode}/${KEY}`)}`);
     if(v !== null){
-      el.textContent = v.toLocaleString();
+      setAll(v.toLocaleString());
       if(!hasCounted) localStorage.setItem(FLAG, "1");
-      // keep local in sync for instant next load
       localStorage.setItem(LOCAL_KEY, String(v));
       return;
     }
-    // 3) All APIs failed — use local fallback (still unique per device, but not global)
     let n = parseInt(localStorage.getItem(LOCAL_KEY) || "0", 10);
     if(!hasCounted){ n = (n || 0) + 1; localStorage.setItem(LOCAL_KEY, String(n)); localStorage.setItem(FLAG, "1"); }
     else if(n === 0){ n = 1; localStorage.setItem(LOCAL_KEY, "1"); }
-    el.textContent = n.toLocaleString() + " • offline";
+    setAll(n.toLocaleString() + " • offline");
   })();
 })();

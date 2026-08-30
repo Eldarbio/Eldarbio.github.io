@@ -168,6 +168,8 @@ html.dark #themeToggle .icon-moon{display:block}
 .btn.ghost{background:var(--card); border-color:var(--border); color:var(--text)}
 .hero-meta{list-style:none; padding:0; margin:1rem 0 0; display:flex; gap:1rem; flex-wrap:wrap; font-size:.88rem; color:var(--muted)}
 .hero-meta strong{color:var(--text)}
+.view-pill{display:inline-flex; align-items:center; gap:.45rem; margin-top:.9rem; padding:.48rem .85rem; background:var(--card); border:1.5px solid var(--accent); border-radius:999px; font-weight:700; font-size:.9rem; color:var(--text); box-shadow:0 4px 14px rgba(138,90,43,.14)}
+.view-pill svg{color:var(--accent)} .view-pill #viewCountTop{font-variant-numeric:tabular-nums; color:var(--accent)}
 .card{
   background:var(--card); border:1px solid var(--border); border-radius:var(--radius);
   padding:1rem 1.1rem; box-shadow:var(--shadow);
