@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eldar Hamidov — Portfolio</title>
+<meta name="description" content="Portfolio of Eldar Hamidov — Student, developer, robotics & AI enthusiast. NJCO II, USA English Olympiad I, Saint Petersburg Professionals I.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark">EH</span>
+    <span class="brand-name">Eldar Hamidov</span>
+  </div>
+  <nav class="nav-links" aria-label="Main">
+    <a href="#about">About</a>
+    <a href="#skills">Skills</a>
+    <a href="#achievements">Achievements</a>
+    <a href="#projects">Projects</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <div class="top-actions">
+    <button id="themeToggle" class="icon-btn" aria-label="Toggle theme" title="Toggle dark / light mode">
+      <span class="icon-sun">☀</span><span class="icon-moon">☾</span>
+    </button>
+    <button id="aiToggle" class="ai-btn" aria-label="Open AI assistant">
+      <span class="ai-dot"></span> Ask AI about me
+    </button>
+    <button id="menuToggle" class="icon-btn menu-btn" aria-label="Menu">≡</button>
+  </div>
+</header>
+
+<!-- Mobile nav drawer -->
+<div id="mobileNav" class="mobile-nav">
+  <a href="#about" onclick="closeMobile()">About</a>
+  <a href="#skills" onclick="closeMobile()">Skills</a>
+  <a href="#achievements" onclick="closeMobile()">Achievements</a>
+  <a href="#projects" onclick="closeMobile()">Projects</a>
+  <a href="#contact" onclick="closeMobile()">Contact</a>
+</div>
+
+<main>
+  <section class="hero">
+    <div class="hero-grid">
+      <div class="hero-text">
+        <p class="eyebrow">Sumgait • İstedad Liseyi • Class of 2023–present</p>
+        <h1>Eldar <span class="accent">Hamidov</span></h1>
+        <p class="subtitle">Student • Developer • Robotics & Cybersecurity enthusiast</p>
+        <p class="lead">I build robots, explore AI and compete internationally — from RoboCross and WRO to NJCO and the International AI Olympiad. Focused on clean engineering, practical problem-solving and continuous learning.</p>
+        <div class="cta-row">
+          <a href="#about" class="btn primary">About me</a>
+          <a href="#achievements" class="btn ghost">Achievements</a>
+          <a href="mailto:eldarhamidov2009@gmail.com" class="btn ghost">eldarhamidov2009@gmail.com</a>
+        </div>
+        <ul class="hero-meta">
+          <li><strong>16</strong> yrs • Sumgait, Azerbaijan</li>
+          <li>English B2 • Russian • Turkish</li>
+        </ul>
+      </div>
+      <div class="hero-card">
+        <div class="card">
+          <div class="card-head">At a glance</div>
+          <ul class="stats">
+            <li><span class="k">Top results</span><span class="v">USA English Olympiad — 1st • Professionals St. Petersburg — 1st • NJCO — 2nd • AIRO 2026 — 2nd</span></li>
+            <li><span class="k">Stacks</span><span class="v">Python • C++ • Fusion 360 • SolidWorks • FreeCAD • MS Excel</span></li>
+            <li><span class="k">Education</span><span class="v">Sumgait İstedad Liseyi (2023–present) • Fərqlənmə attestat</span></li>
+            <li><span class="k">Links</span><span class="v social-inline">
+              <a href="https://github.com/Eldar-005" target="_blank" rel="noreferrer" class="social-link"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.77.6-3.36-1.18-3.36-1.18-.45-1.14-1.1-1.45-1.1-1.45-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.89 1.52 2.34 1.08 2.91.83.09-.65.35-1.08.63-1.33-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02A9.56 9.56 0 0 1 12 7.07c.85 0 1.7.11 2.5.33 1.9-1.29 2.74-1.02 2.74-1.02.56 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.94.36.31.68.92.68 1.85v2.74c0 .26.18.58.69.48A10 10 0 0 0 12 2z"/></svg> GitHub</a>
+              <a href="https://www.youtube.com/@EldarBuildLab" target="_blank" rel="noreferrer" class="social-link"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M23 12s0-3.55-.46-5.27a1.5 1.5 0 0 0-1.04-1.05C19.78 5.16 12 5.16 12 5.16s-7.78 0-9.5.52A1.5 1.5 0 0 0 1.46 6.73C1 8.45 1 12 1 12s0 3.55.46 5.27a1.5 1.5 0 0 0 1.04 1.05c1.72.52 9.5.52 9.5.52s7.78 0 9.5-.52a1.5 1.5 0 0 0 1.04-1.05C23 15.55 23 12 23 12zm-13.2 3.4V8.6L16.2 12z"/></svg> YouTube</a>
+              <a href="https://www.instagram.com/eldar_hamidov09?igsi=MWNjaHdtOTV6cTB3Mw==" target="_blank" rel="noreferrer" class="social-link"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M12 2.2c3.2 0 3.58.01 4.84.07 1.17.05 1.8.25 2.22.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.05.41 2.22.06 1.26.07 1.64.07 4.84s-.01 3.58-.07 4.84c-.05 1.17-.25 1.8-.41 2.22a3.7 3.7 0 0 1-.9 1.38 3.7 3.7 0 0 1-1.38.9c-.42.16-1.05.36-2.22.41-1.26.06-1.64.07-4.84.07s-3.58-.01-4.84-.07c-1.17-.05-1.8-.25-2.22-.41a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.42-.36-1.05-.41-2.22C2.21 15.58 2.2 15.2 2.2 12s.01-3.58.07-4.84c.05-1.17.25-1.8.41-2.22.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.05-.36 2.22-.41C8.42 2.21 8.8 2.2 12 2.2zm0 1.8c-3.15 0-3.53.01-4.77.07-1.06.05-1.64.23-2.02.38-.51.2-.87.43-1.25.81-.38.38-.61.74-.81 1.25-.15.38-.33.96-.38 2.02C2.71 8.47 2.7 8.85 2.7 12s.01 3.53.07 4.77c.05 1.06.23 1.64.38 2.02.2.51.43.87.81 1.25.38.38.74.61 1.25.81.38.15.96.33 2.02.38 1.24.06 1.62.07 4.77.07s3.53-.01 4.77-.07c1.06-.05 1.64-.23 2.02-.38.51-.2.87-.43 1.25-.81.38-.38.61-.74.81-1.25.15-.38.33-.96.38-2.02.06-1.24.07-1.62.07-4.77s-.01-3.53-.07-4.77c-.05-1.06-.23-1.64-.38-2.02a2.7 2.7 0 0 0-.81-1.25 2.7 2.7 0 0 0-1.25-.81c-.38-.15-.96-.33-2.02-.38C15.53 4.01 15.15 4 12 4zm0 3.2a5.8 5.8 0 1 1 0 11.6 5.8 5.8 0 0 1 0-11.6zm0 1.8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zm5.92-2.1a1.36 1.36 0 1 1 0 2.72 1.36 1.36 0 0 1 0-2.72z"/></svg> Instagram</a>
+            </span></li>
+          </ul>
+        </div>
+        <p class="card-note">Works on phone, tablet and desktop.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="section">
+    <div class="section-head">
+      <h2>About</h2>
+      <p class="section-sub">What drives me — and how I work.</p>
+    </div>
+    <div class="two-col">
+      <div>
+        <p>I'm a student at <strong>Sumgait İstedad Liseyi</strong> with a strong interest in robotics, cybersecurity and applied AI. I enjoy taking an idea from sketch (Fusion 360 / FreeCAD) to a working prototype, and then documenting and sharing the process.</p>
+        <p>Competitions taught me to work under constraints, iterate quickly and learn from failures — whether it was RoboCross, WRO Virtual Games, SAF or Teknofest. I value teamwork, clear communication and reliable follow-through.</p>
+        <p>I also volunteer with <strong>Sumgait Youth House</strong> and <strong>Bir Könüllü</strong>, helping with events and peer trainings (e.g., “Data sphere job divisions”, 2026).</p>
+      </div>
+      <div class="info-box">
+        <h3>What I'm like</h3>
+        <ul>
+          <li>Curious and disciplined — consistent practice over last-minute cramming.</li>
+          <li>Hands-on builder — CAD → 3D print → code → test.</li>
+          <li>Team player — experience in SUMracers and cross-school teams.</li>
+          <li>Communicative — comfortable presenting in Azerbaijani, English (B2) and Turkish.</li>
+        </ul>
+        <p class="muted small">Want more? Ask the assistant → top-right “Ask AI about me”.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills" class="section alt">
+    <div class="section-head">
+      <h2>Skills</h2>
+    </div>
+    <div class="skill-grid">
+      <div class="skill-card"><h3>Languages & Code</h3><p>Python, C++ — algorithms, Bebras-style problem solving, Arduino/ESP32.</p><span class="tag">Python</span><span class="tag">C++</span><span class="tag">Arduino</span></div>
+      <div class="skill-card"><h3>Design & Fabrication</h3><p>Fusion 360, SolidWorks, FreeCAD — modeling for robotics and 3D printing (Anycubic Kobra 2 Pro).</p><span class="tag">Fusion 360</span><span class="tag">SolidWorks</span><span class="tag">3D Printing</span></div>
+      <div class="skill-card"><h3>Cybersecurity</h3><p>NJCO II (2025), AKTA Cyber Summer School — networks, OSINT, Linux, wire analysis.</p><span class="tag">NJCO</span><span class="tag">Linux</span><span class="tag">Wireshark</span></div>
+      <div class="skill-card"><h3>Languages</h3><p>Azerbaijani (native), English B2 — excellent, Turkish — good, Russian — sufficient.</p><span class="tag">EN B2</span><span class="tag">TR</span><span class="tag">RU</span></div>
+    </div>
+  </section>
+
+  <section id="achievements" class="section">
+    <div class="section-head">
+      <h2>Achievements</h2>
+      <p class="section-sub">Every competition & award from my CV — chronological.</p>
+    </div>
+    <div class="ach-grid">
+      <div class="ach-card win"><span class="badge gold">I</span><div><h3>EU4Climate “Özün yarat” — parça</h3><p>EU-funded, UNDP & Ministry of Ecology project — <strong>I place</strong></p><span class="year">2020</span></div></div>
+      <div class="ach-card win"><span class="badge gold">II</span><div><h3>RoboCross Online Challenge — Egypt</h3><p>International virtual robotics — <strong>II worldwide</strong> (team)</p><span class="year">2020</span></div></div>
+      <div class="ach-card"><span class="badge">F</span><div><h3>WRO ROBOT VIRTUAL GAMES — Panama</h3><p>Virtual World Robot Olympiad — <strong>Finalist</strong></p><span class="year">2020</span></div></div>
+      <div class="ach-card"><span class="badge">V</span><div><h3>WRO Canada 2020-X</h3><p>Virtual World Robot Olympiad — <strong>V place</strong></p><span class="year">2020</span></div></div>
+      <div class="ach-card"><span class="badge bronze">III</span><div><h3>Yaz Elm Festifalı — BMU TEC</h3><p>Baku Engineering University Student Scientific Society — <strong>III place</strong></p><span class="year">2021</span></div></div>
+      <div class="ach-card"><span class="badge">F</span><div><h3>V International Scratch Creative Programming Olympiad</h3><p>National selection — <strong>Finalist</strong></p><span class="year">2021</span></div></div>
+      <div class="ach-card"><span class="badge">F</span><div><h3>SAF Festival</h3><p>Ministry of Education — <strong>Finalist</strong></p><span class="year">2021</span></div></div>
+      <div class="ach-card"><span class="badge">V</span><div><h3>International Robotics Olympiad — Egypt (SUMracers)</h3><p>Team SUMracers — <strong>V place</strong></p><span class="year">2021</span></div></div>
+      <div class="ach-card"><span class="badge">IV</span><div><h3>ALP Logo Competition</h3><p><strong>IV place</strong></p><span class="year">2022</span></div></div>
+      <div class="ach-card"><span class="badge">F</span><div><h3>Teknofest Azerbaijan</h3><p><strong>Finalist</strong></p><span class="year">2022</span></div></div>
+      <div class="ach-card"><span class="badge">F</span><div><h3>EU4Climate “Özün Yarat”</h3><p><strong>Finalist</strong></p><span class="year">2022</span></div></div>
+      <div class="ach-card"><span class="badge">P</span><div><h3>Babres2 & Yandex Cup</h3><p>Algorithm competitions — <strong>Participant</strong></p><span class="year">2022-2023</span></div></div>
+      <div class="ach-card win"><span class="badge gold">W</span><div><h3>SAF 2023 — “Zəlzələ zamanı xilasedici çanta”</h3><p>Innovative Exhibition category — <strong>Winner</strong></p><span class="year">2023</span></div></div>
+      <div class="ach-card"><span class="badge bronze">III</span><div><h3>Neo Science Olympiad — Mathematics</h3><p><strong>III place</strong></p><span class="year">2023-2025</span></div></div>
+      <div class="ach-card"><span class="badge">F</span><div><h3>WRO Azerbaijan</h3><p><strong>Finalist</strong></p><span class="year">2024</span></div></div>
+      <div class="ach-card"><span class="badge">SF</span><div><h3>Bebras Informatics — Azerbaijan</h3><p>2024-2025 — <strong>Semifinal</strong></p><span class="year">2024-2025</span></div></div>
+      <div class="ach-card win"><span class="badge gold">HR</span><div><h3>Bebras Challenge USA 2024-2025</h3><p><strong>Honor Roll</strong></p><span class="year">2024-2025</span></div></div>
+      <div class="ach-card"><span class="badge">F</span><div><h3>Sabahın Alimləri XIV — Physics/Astronomy</h3><p>Republic competition — <strong>Finalist & participation certificate</strong></p><span class="year">2025</span></div></div>
+      <div class="ach-card win"><span class="badge gold">HR</span><div><h3>International Inter-School AI Olympiad 2025</h3><p><strong>Honor Roll</strong></p><span class="year">2025</span></div></div>
+      <div class="ach-card"><span class="badge">P</span><div><h3>AKTA Cyber Summer School</h3><p><strong>Participant</strong></p><span class="year">2025</span></div></div>
+      <div class="ach-card win"><span class="badge silver">II</span><div><h3>NJCO — National Junior Cybersecurity Olympiad</h3><p><strong>II place</strong></p><span class="year">2025</span></div></div>
+      <div class="ach-card win"><span class="badge gold">I</span><div><h3>USA International English Olympiad</h3><p><strong>I place</strong></p><span class="year">2025</span></div></div>
+      <div class="ach-card win"><span class="badge gold">I</span><div><h3>“Professionallar” — Saint Petersburg 2025</h3><p><strong>I place</strong></p><span class="year">2025</span></div></div>
+      <div class="ach-card win"><span class="badge silver">II</span><div><h3>AIRO — Azerbaijan International Robotics Olympiad</h3><p><strong>II place</strong></p><span class="year">2026</span></div></div>
+      <div class="ach-card"><span class="badge">A</span><div><h3>Volunteering — Sumgait Youth House</h3><p>“Ayın aktiv və fəal könüllüsü” & “Bir Könüllü” Data spheres training — <strong>2026</strong></p><span class="year">2026</span></div></div>
+      <div class="ach-card"><span class="badge">C</span><div><h3>Attestat</h3><p><strong>Fərqlənmə attestatı</strong> (with distinction)</p><span class="year"></span></div></div>
+    </div>
+  </section>
+
+  <section id="projects" class="section alt">
+    <div class="section-head">
+      <h2>Projects</h2>
+    </div>
+    <div class="proj-grid">
+      <article class="proj">
+        <h3>eldar_hasc2025 — AI project</h3>
+        <p>Repository for Human-AI / AI Olympiad work — code, datasets and write-ups.</p>
+        <a href="https://github.com/Eldar-005" target="_blank" rel="noreferrer" class="social-link" style="margin-top:.4rem"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.77.6-3.36-1.18-3.36-1.18-.45-1.14-1.1-1.45-1.1-1.45-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.89 1.52 2.34 1.08 2.91.83.09-.65.35-1.08.63-1.33-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02A9.56 9.56 0 0 1 12 7.07c.85 0 1.7.11 2.5.33 1.9-1.29 2.74-1.02 2.74-1.02.56 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.94.36.31.68.92.68 1.85v2.74c0 .26.18.58.69.48A10 10 0 0 0 12 2z"/></svg> github.com/Eldar-005 →</a>
+      </article>
+      <article class="proj">
+        <h3>Rescue Bag — SAF 2023 Winner</h3>
+        <p>“Zəlzələ zamanı xilasedici çanta” — innovative exhibition winner. Concept for emergency support with practical kit and guidance.</p>
+        <span class="muted small">SAF Innovative Exhibition, 2023</span>
+      </article>
+      <article class="proj">
+        <h3>YouTube — Eldar Build Lab</h3>
+        <p>Build logs, robotics tests and explanations — aimed at students who want to reproduce results.</p>
+        <a href="https://www.youtube.com/@EldarBuildLab" target="_blank" rel="noreferrer" class="social-link" style="margin-top:.4rem"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M23 12s0-3.55-.46-5.27a1.5 1.5 0 0 0-1.04-1.05C19.78 5.16 12 5.16 12 5.16s-7.78 0-9.5.52A1.5 1.5 0 0 0 1.46 6.73C1 8.45 1 12 1 12s0 3.55.46 5.27a1.5 1.5 0 0 0 1.04 1.05c1.72.52 9.5.52 9.5.52s7.78 0 9.5-.52a1.5 1.5 0 0 0 1.04-1.05C23 15.55 23 12 23 12zm-13.2 3.4V8.6L16.2 12z"/></svg> youtube.com/@EldarBuildLab →</a>
+      </article>
+    </div>
+  </section>
+
+  <section id="contact" class="section">
+    <div class="section-head">
+      <h2>Contact</h2>
+      <p class="section-sub">Only public contact — as you requested.</p>
+    </div>
+    <div class="contact-card">
+      <div><strong>Eldar Hamidov</strong><br><a href="mailto:eldarhamidov2009@gmail.com">eldarhamidov2009@gmail.com</a></div>
+      <div class="contact-links">
+        <a href="https://github.com/Eldar-005" target="_blank" rel="noreferrer" class="social-link"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.77.6-3.36-1.18-3.36-1.18-.45-1.14-1.1-1.45-1.1-1.45-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.89 1.52 2.34 1.08 2.91.83.09-.65.35-1.08.63-1.33-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02A9.56 9.56 0 0 1 12 7.07c.85 0 1.7.11 2.5.33 1.9-1.29 2.74-1.02 2.74-1.02.56 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.94.36.31.68.92.68 1.85v2.74c0 .26.18.58.69.48A10 10 0 0 0 12 2z"/></svg> GitHub</a>
+        <a href="https://www.youtube.com/@EldarBuildLab" target="_blank" rel="noreferrer" class="social-link"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M23 12s0-3.55-.46-5.27a1.5 1.5 0 0 0-1.04-1.05C19.78 5.16 12 5.16 12 5.16s-7.78 0-9.5.52A1.5 1.5 0 0 0 1.46 6.73C1 8.45 1 12 1 12s0 3.55.46 5.27a1.5 1.5 0 0 0 1.04 1.05c1.72.52 9.5.52 9.5.52s7.78 0 9.5-.52a1.5 1.5 0 0 0 1.04-1.05C23 15.55 23 12 23 12zm-13.2 3.4V8.6L16.2 12z"/></svg> YouTube</a>
+        <a href="https://www.instagram.com/eldar_hamidov09?igsi=MWNjaHdtOTV6cTB3Mw==" target="_blank" rel="noreferrer" class="social-link"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M12 2.2c3.2 0 3.58.01 4.84.07 1.17.05 1.8.25 2.22.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.05.41 2.22.06 1.26.07 1.64.07 4.84s-.01 3.58-.07 4.84c-.05 1.17-.25 1.8-.41 2.22a3.7 3.7 0 0 1-.9 1.38 3.7 3.7 0 0 1-1.38.9c-.42.16-1.05.36-2.22.41-1.26.06-1.64.07-4.84.07s-3.58-.01-4.84-.07c-1.17-.05-1.8-.25-2.22-.41a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.42-.36-1.05-.41-2.22C2.21 15.58 2.2 15.2 2.2 12s.01-3.58.07-4.84c.05-1.17.25-1.8.41-2.22.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.05-.36 2.22-.41C8.42 2.21 8.8 2.2 12 2.2zm0 1.8c-3.15 0-3.53.01-4.77.07-1.06.05-1.64.23-2.02.38-.51.2-.87.43-1.25.81-.38.38-.61.74-.81 1.25-.15.38-.33.96-.38 2.02C2.71 8.47 2.7 8.85 2.7 12s.01 3.53.07 4.77c.05 1.06.23 1.64.38 2.02.2.51.43.87.81 1.25.38.38.74.61 1.25.81.38.15.96.33 2.02.38 1.24.06 1.62.07 4.77.07s3.53-.01 4.77-.07c1.06-.05 1.64-.23 2.02-.38.51-.2.87-.43 1.25-.81.38-.38.61-.74.81-1.25.15-.38.33-.96.38-2.02.06-1.24.07-1.62.07-4.77s-.01-3.53-.07-4.77c-.05-1.06-.23-1.64-.38-2.02a2.7 2.7 0 0 0-.81-1.25 2.7 2.7 0 0 0-1.25-.81c-.38-.15-.96-.33-2.02-.38C15.53 4.01 15.15 4 12 4zm0 3.2a5.8 5.8 0 1 1 0 11.6 5.8 5.8 0 0 1 0-11.6zm0 1.8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zm5.92-2.1a1.36 1.36 0 1 1 0 2.72 1.36 1.36 0 0 1 0-2.72z"/></svg> Instagram</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <p>© 2026 Eldar Hamidov</p>
+</footer>
+
+<!-- Slide-out AI Panel -->
+<div id="overlay" class="overlay" aria-hidden="true"></div>
+<aside id="aiPanel" class="ai-panel" aria-label="AI assistant" aria-hidden="true">
+  <div class="ai-head">
+    <div>
+      <h3>Ask about Eldar</h3>
+      <p class="muted small">Answers only from your CV + the knowledge you provide. No personal numbers.</p>
+    </div>
+    <button id="aiClose" class="icon-btn" aria-label="Close">✕</button>
+  </div>
+  <div id="aiMessages" class="ai-messages">
+    <div class="msg ai">Hi! I'm Eldar's portfolio assistant. Try:<br>• “What is Eldar like?”<br>• “How did you win this competition?”<br>• “What should I do to win?”<br>• “What sources did you use?”</div>
+  </div>
+  <div class="ai-suggestions">
+    <button data-q="What is Eldar like?">What is he like?</button>
+    <button data-q="How did you win the RoboCross / EU4Climate competition?">How did he win?</button>
+    <button data-q="What should I do to win a competition?">How to win?</button>
+    <button data-q="What sources did you use?">Sources?</button>
+  </div>
+  <form id="aiForm" class="ai-form">
+    <input id="aiInput" type="text" placeholder="Ask something..." autocomplete="off" aria-label="Your question">
+    <button type="submit">Send</button>
+  </form>
+</aside>
+
+<script src="script.js"></script>
+</body>
+</html>
