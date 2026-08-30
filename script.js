@@ -32,9 +32,53 @@ document.getElementById('aiClose').addEventListener('click', closeAI);
 overlay.addEventListener('click', closeAI);
 document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ closeAI(); closeMobile(); }});
 
+// --------- FREE AI (Gemini) CONFIG ---------
+// Free, not dumb: gemini-1.5-flash (or gemini-2.0-flash) via Google AI Studio - 60 req/min free.
+// Key is NOT in repo - user pastes it in the AI panel, saved in localStorage only.
+const GEMINI_MODEL = "gemini-1.5-flash"; // change to gemini-2.0-flash if you want newer
+function getApiKey(){ return localStorage.getItem("gemini_api_key") || ""; }
+function setApiKey(k){ if(k) localStorage.setItem("gemini_api_key", k.trim()); }
+function clearApiKey(){ localStorage.removeItem("gemini_api_key"); }
+
+function buildSystemPrompt(){
+  // Long text you will give me later goes into KNOWLEDGE_EXTRA - paste it there
+  const extra = (typeof KNOWLEDGE_EXTRA !== "undefined" && KNOWLEDGE_EXTRA) ? `\n\nEXTRA INFO PROVIDED BY ELDAR:\n${KNOWLEDGE_EXTRA}\n` : "";
+  return `You are Eldar Hamidov's portfolio assistant. Answer ONLY from the knowledge below. Be helpful, concise, professional. If question is outside knowledge, say you only answer from CV and suggest contacting eldarhamidov2009@gmail.com. No phone/birthdate. Language: answer in the user's language (AZ/EN/TR/RU).
+
+NAME: ${KNOWLEDGE.name} <${KNOWLEDGE.email}>
+ABOUT: ${KNOWLEDGE.about}
+PERSONALITY: ${KNOWLEDGE.personality}
+EDUCATION: ${KNOWLEDGE.education}
+SKILLS: ${KNOWLEDGE.skills}
+LINKS: ${KNOWLEDGE.links}
+WIN EXAMPLES: ${Object.entries(KNOWLEDGE.how_win_examples).map(([k,v])=> `${k}: ${v}`).join(" | ")}
+HOW TO WIN ADVICE: ${KNOWLEDGE.how_to_win_advice}
+SOURCES: ${KNOWLEDGE.sources}${extra}`;
+}
+
+async function callGemini(userQuestion){
+  const key = getApiKey();
+  if(!key) return null;
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${encodeURIComponent(key)}`;
+  const body = {
+    contents: [{ role: "user", parts: [{ text: `${buildSystemPrompt()}\n\nUSER QUESTION: ${userQuestion}` }]}],
+    generationConfig: { temperature: 0.7, maxOutputTokens: 700 }
+  };
+  const res = await fetch(url, { method: "POST", headers: {"Content-Type":"application/json"}, body: JSON.stringify(body) });
+  if(!res.ok){
+    const txt = await res.text();
+    throw new Error(`Gemini ${res.status}: ${txt.slice(0,300)}`);
+  }
+  const data = await res.json();
+  const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+  return text || null;
+}
+
 // --------- KNOWLEDGE BASE ---------
 // Edit this object to change what the AI says. Only information from the CV is included
 // and no phone/birthdate is exposed, per your privacy rule (only name + gmail).
+// For long text you will provide later, edit KNOWLEDGE_EXTRA below (string).
+const KNOWLEDGE_EXTRA = ""; // <-- PASTE YOUR LONG TEXT HERE LATER (I will do it)
 const KNOWLEDGE = {
   name: "Eldar Hamidov",
   email: "eldarhamidov2009@gmail.com",
@@ -100,18 +144,69 @@ function addMsg(text, who){
   messages.scrollTop = messages.scrollHeight;
 }
 
+async function handleQuestion(q){
+  addMsg(q, 'user');
+  const typing = document.createElement('div');
+  typing.className = 'msg ai';
+  typing.textContent = 'Thinking...';
+  messages.appendChild(typing);
+  messages.scrollTop = messages.scrollHeight;
+  try{
+    const key = getApiKey();
+    let answer = null;
+    if(key){
+      try{ answer = await callGemini(q); } catch(err){ answer = `Gemini error (using local fallback): ${err.message}\n\n${answerFor(q)}`; }
+    }
+    if(!answer) answer = answerFor(q);
+    typing.textContent = answer;
+  } catch(e){
+    typing.textContent = answerFor(q);
+  }
+}
+
 form.addEventListener('submit', e=>{
   e.preventDefault();
   const q = input.value.trim();
   if(!q) return;
-  addMsg(q, 'user');
   input.value='';
-  setTimeout(()=> addMsg(answerFor(q), 'ai'), 280);
+  handleQuestion(q);
 });
 document.querySelectorAll('[data-q]').forEach(b=>{
   b.addEventListener('click', ()=>{
     const q=b.getAttribute('data-q');
-    addMsg(q,'user');
-    setTimeout(()=> addMsg(answerFor(q),'ai'), 260);
+    handleQuestion(q);
   });
 });
+
+// API key UI
+const apiInput = document.getElementById('apiKeyInput');
+const saveBtn = document.getElementById('saveKeyBtn');
+const clearBtn = document.getElementById('clearKeyBtn');
+const keyMsg = document.getElementById('keyMsg');
+const keyStatus = document.getElementById('keyStatus');
+function refreshKeyUI(){
+  const k = getApiKey();
+  if(k){
+    keyStatus.textContent = "— saved ✓ (free Gemini, not dumb)";
+    keyStatus.style.color = "#36c46a";
+    apiInput.placeholder = "Key saved in this browser";
+    keyMsg.textContent = "AI will use Gemini 1.5 Flash (smart, free). Clear to use local fallback.";
+    apiInput.value = "";
+  } else {
+    keyStatus.textContent = "— local only (add key for smart AI)";
+    keyStatus.style.color = "var(--muted)";
+    keyMsg.textContent = "No key = local rule-based answers. Add key for real AI.";
+  }
+}
+if(saveBtn){
+  refreshKeyUI();
+  saveBtn.addEventListener('click', ()=>{
+    const v = apiInput.value.trim();
+    if(!v || !v.startsWith('AIza')){ keyMsg.textContent = "Paste a valid Gemini key starting with AIza..."; return; }
+    setApiKey(v); refreshKeyUI(); keyMsg.textContent = "Saved! Try asking a question now.";
+    apiInput.value="";
+  });
+  clearBtn.addEventListener('click', ()=>{ clearApiKey(); refreshKeyUI(); keyMsg.textContent="Key cleared. Using local AI."; });
+  // preload if saved
+  if(getApiKey()) apiInput.value = "";
+}
