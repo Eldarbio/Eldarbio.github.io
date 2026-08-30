@@ -74,17 +74,20 @@ async function callFreeAI(userQuestion){
 
 function buildSystemPrompt(){
   const extra = (typeof KNOWLEDGE_EXTRA !== "undefined" && KNOWLEDGE_EXTRA) ? `\n\nEXTRA INFO PROVIDED BY ELDAR:\n${KNOWLEDGE_EXTRA}\n` : "";
-  return `You are Eldar Hamidov's portfolio assistant. Answer ONLY from the knowledge below. Be helpful, concise, professional. If question is outside knowledge, say you only answer from CV and suggest contacting eldarhamidov2009@gmail.com. No phone/birthdate. Language: answer in user's language (AZ/EN/TR/RU).
+  return `You are Eldar Hamidov's friendly portfolio AI. You have his CV below, but you are also a helpful conversational AI - you can answer ANY question naturally, with personality, not just CV. For questions about Eldar, use CV accurately. For general chat (how are you, jokes, help, etc.), answer helpfully and naturally. Never say "I can answer from the CV only". Be varied, not repetitive. No phone/birthdate. Language: match user's language (AZ/EN/TR/RU).
 
+ELDAR CV:
 NAME: ${KNOWLEDGE.name} <${KNOWLEDGE.email}>
 ABOUT: ${KNOWLEDGE.about}
 PERSONALITY: ${KNOWLEDGE.personality}
 EDUCATION: ${KNOWLEDGE.education}
 SKILLS: ${KNOWLEDGE.skills}
 LINKS: ${KNOWLEDGE.links}
-WIN EXAMPLES: ${Object.entries(KNOWLEDGE.how_win_examples).map(([k,v])=> `${k}: ${v}`).join(" | ")}
-HOW TO WIN ADVICE: ${KNOWLEDGE.how_to_win_advice}
-SOURCES: ${KNOWLEDGE.sources}${extra}`;
+WINS: ${Object.entries(KNOWLEDGE.how_win_examples).map(([k,v])=> `${k}: ${v}`).join(" | ")}
+ADVICE: ${KNOWLEDGE.how_to_win_advice}
+SOURCES: ${KNOWLEDGE.sources}${extra}
+
+Style: concise, warm, varied, never repeat same template.`;
 }
 
 // --------- KNOWLEDGE BASE ---------
@@ -113,13 +116,23 @@ const KNOWLEDGE = {
 };
 
 function answerFor(q){
-  const s = q.toLowerCase();
+  const s = q.toLowerCase().trim();
+  // greetings & general chat - varied, not CV-only
+  if (/^(hi|hey|hello|salam|salut|привет)[\s!.,]*$/.test(s) || s === "how are you" || s === "how are you?" || s.includes("how are you")) {
+    const replies = [
+      `Hey! I'm doing great — Eldar's assistant here. How can I help you today? You can ask about Eldar or anything else!`,
+      `Hi there! All good on my side. Want to know about Eldar's projects, or just chat?`,
+      `Hello! I'm Eldar's AI — ready to help. Ask me about his wins, skills, or whatever you need.`
+    ];
+    return replies[Math.floor(Math.random()*replies.length)];
+  }
+  if (/(thank|thanks|sağ ol|teşekkür)/.test(s)) return `You're welcome! Anything else you want to know about Eldar or need help with?`;
+  if (/(bye|goodbye|görüş|hələlik)/.test(s)) return `Bye! Come back anytime — https://eldarbio.github.io is always open.`;
 
   // what am I like / personality
-  if (/(like|personality|character|kind of person|what are you)/.test(s)) {
+  if (/(like|personality|character|kind of person|what are you|who is eldar)/.test(s)) {
     return `${KNOWLEDGE.personality}\n\n${KNOWLEDGE.about}`;
   }
-  // how did you win this competition
   if (/(how.*win|win.*how|how did.*competition|robocross|eu4climate|özün yarat|rescue bag|saf|njco|english olympiad|professionals|st\. petersburg)/.test(s)) {
     if (s.includes('robocross')) return KNOWLEDGE.how_win_examples.robocross;
     if (s.includes('eu4climate') || s.includes('parça') || s.includes('parca')) return KNOWLEDGE.how_win_examples.eu4climate;
@@ -127,22 +140,20 @@ function answerFor(q){
     if (s.includes('njco') || s.includes('cyber')) return KNOWLEDGE.how_win_examples.njco;
     if (s.includes('english')) return KNOWLEDGE.how_win_examples.english;
     if (s.includes('st') || s.includes('peter') || s.includes('professional')) return KNOWLEDGE.how_win_examples.stpetersburg;
-    // generic
-    return `Examples from CV:\n• ${KNOWLEDGE.how_win_examples.robocross}\n• ${KNOWLEDGE.how_win_examples.eu4climate}\n• ${KNOWLEDGE.how_win_examples.saf2023}\n• ${KNOWLEDGE.how_win_examples.njco}\n\nWant details for a specific competition? Name it (e.g., "NJCO", "SAF 2023").`;
+    return `Examples from CV:\n• ${KNOWLEDGE.how_win_examples.robocross}\n• ${KNOWLEDGE.how_win_examples.eu4climate}\n• ${KNOWLEDGE.how_win_examples.saf2023}\n• ${KNOWLEDGE.how_win_examples.njco}\n\nName a competition for details (e.g., "NJCO", "SAF 2023").`;
   }
-  // what should I do to win
-  if (/(what should i do|how to win|how can i win|advice|tips|prepare)/.test(s)) {
-    return KNOWLEDGE.how_to_win_advice;
-  }
-  // sources
-  if (/(source|what.*use|where.*learn|book|material)/.test(s)) {
-    return KNOWLEDGE.sources;
-  }
+  if (/(what should i do|how to win|how can i win|advice|tips|prepare)/.test(s)) return KNOWLEDGE.how_to_win_advice;
+  if (/(source|what.*use|where.*learn|book|material)/.test(s)) return KNOWLEDGE.sources;
   if (/(education|school|language)/.test(s)) return KNOWLEDGE.education;
   if (/(skill|python|c\+\+|fusion|solid)/.test(s)) return KNOWLEDGE.skills;
   if (/(contact|email|gmail|github|youtube|instagram)/.test(s)) return `${KNOWLEDGE.name} — ${KNOWLEDGE.email}\n${KNOWLEDGE.links}`;
-  if (/(hello|hi|hey|salam)/.test(s)) return `Hi! I'm the assistant for ${KNOWLEDGE.name}. Ask me: "What is he like?", "How did he win RoboCross?", "What should I do to win?" or "What sources did he use?"`;
-  return `I can answer from the CV only. Try:\n• What is Eldar like?\n• How did you win [competition name]?\n• What should I do to win?\n• What sources did you use?\n• Contact / skills / education\n\n(Contact: ${KNOWLEDGE.email})`;
+  // general fallback - not repetitive, helpful, uses brain
+  const generals = [
+    `Good question! I'm Eldar's assistant — I can chat about anything, and for Eldar-specific stuff I use his CV. What would you like to know? Try: "What is Eldar like?" or ask me anything else.`,
+    `I'm here to help! For Eldar's story I pull from his CV, but I can also just chat. What's on your mind?`,
+    `Hey! I can talk about Eldar (wins, skills, sources) or help with general questions — just ask naturally. For Eldar: eldarhamidov2009@gmail.com`
+  ];
+  return generals[Math.floor(Math.random()*generals.length)] + `\n\nQuick ideas: • What is Eldar like? • How did he win RoboCross? • How to win?`;
 }
 
 const messages = document.getElementById('aiMessages');
