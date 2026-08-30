@@ -624,56 +624,49 @@ function setLang(lang){
 document.querySelectorAll(".lang-btn").forEach(b=> b.addEventListener("click", ()=> setLang(b.dataset.lang)));
 setLang(localStorage.getItem("site_lang") || "en");
 
-// --- Unique View Count (1 per device globally, not on refresh) ---
+// --- Unique View Count (global, +1 per new device, never on refresh) ---
 (function(){
   const el = document.getElementById("viewCount");
   if(!el) return;
   const API = "https://countapi.mileshilliard.com/api/v1";
-  const KEY = "eldarbio_portfolio_visits";
-  const DEVICE_FLAG = "view_counted_eldarbio";
-
-  // Unique per device: this localStorage flag ensures each browser counts only ONCE,
-  // so refreshing the page does NOT bump the number. Another device (no flag) adds +1.
-  const hasCounted = localStorage.getItem(DEVICE_FLAG) === "1";
-
-  // Show a number immediately (smooth counter), then update from server
+  const KEY = "eldarbio_portfolio_visits_v3";
+  const FLAG = "view_counted_eldarbio_v3";
+  const LOCAL_KEY = "local_view_count_v3";
+  const hasCounted = localStorage.getItem(FLAG) === "1";
   el.textContent = "…";
 
-  async function fetchCount(mode){
+  async function tryFetch(url){
     const ctrl = new AbortController();
-    const timer = setTimeout(()=> ctrl.abort(), 5000);
+    const t = setTimeout(()=> ctrl.abort(), 4500);
     try{
-      const url = `${API}/${mode}/${KEY}`;
       const res = await fetch(url, { cache:"no-store", signal: ctrl.signal, mode:"cors" });
-      clearTimeout(timer);
+      clearTimeout(t);
       if(res.ok){
         const data = await res.json();
-        if(data && typeof data.value === "number"){
-          // Animate the number for polish
-          const target = data.value;
-          const start = parseInt(el.textContent.replace(/[^0-9]/g,"") || "0", 10) || target;
-          el.textContent = target.toLocaleString();
-          return target;
-        }
+        if(data && typeof data.value === "number") return data.value;
       }
-    } catch(e){ clearTimeout(timer); }
+    } catch(e){ clearTimeout(t); }
     return null;
   }
 
   (async function(){
-    // First-ever visit on this device -> HIT (+1). Refresh -> GET (no change).
     const mode = hasCounted ? "get" : "hit";
-    const value = await fetchCount(mode);
-    if(value === null){
-      // Server unreachable — fall back to local count (still per-device unique)
-      const localKey = "local_view_count";
-      let n = parseInt(localStorage.getItem(localKey) || "0", 10);
-      if(!hasCounted){ n += 1; localStorage.setItem(localKey, String(n)); }
-      else if(n === 0){ n = 1; }
-      el.textContent = n.toLocaleString();
+    // 1) Direct API
+    let v = await tryFetch(`${API}/${mode}/${KEY}`);
+    // 2) Via CORS proxy if direct blocked (adblock, network filter)
+    if(v === null) v = await tryFetch(`https://corsproxy.io/?${encodeURIComponent(`${API}/${mode}/${KEY}`)}`);
+    if(v === null) v = await tryFetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(`${API}/${mode}/${KEY}`)}`);
+    if(v !== null){
+      el.textContent = v.toLocaleString();
+      if(!hasCounted) localStorage.setItem(FLAG, "1");
+      // keep local in sync for instant next load
+      localStorage.setItem(LOCAL_KEY, String(v));
       return;
     }
-    // Mark this device as counted so refresh never increments again
-    if(!hasCounted) localStorage.setItem(DEVICE_FLAG, "1");
+    // 3) All APIs failed — use local fallback (still unique per device, but not global)
+    let n = parseInt(localStorage.getItem(LOCAL_KEY) || "0", 10);
+    if(!hasCounted){ n = (n || 0) + 1; localStorage.setItem(LOCAL_KEY, String(n)); localStorage.setItem(FLAG, "1"); }
+    else if(n === 0){ n = 1; localStorage.setItem(LOCAL_KEY, "1"); }
+    el.textContent = n.toLocaleString() + " • offline";
   })();
 })();
