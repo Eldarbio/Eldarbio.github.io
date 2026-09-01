@@ -653,6 +653,19 @@ function setLang(lang){
 document.querySelectorAll(".lang-btn").forEach(b=> b.addEventListener("click", ()=> setLang(b.dataset.lang)));
 setLang(localStorage.getItem("site_lang") || "en");
 
+// --- Purposeful reveal on scroll (achievements / skills / projects) ---
+(function(){
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const els = document.querySelectorAll('.skill-card, .ach-card, .proj, .info-box, .section-head');
+  els.forEach(e=> e.classList.add('reveal'));
+  const io = new IntersectionObserver(entries=>{
+    entries.forEach(ent=>{
+      if(ent.isIntersecting){ ent.target.classList.add('in'); io.unobserve(ent.target); }
+    });
+  }, {threshold:.12, rootMargin:'0px 0px -40px 0px'});
+  els.forEach(e=> io.observe(e));
+})();
+
 // --- View Count (global, +1 per new device, never on refresh) ---
 (function(){
   const els = [document.getElementById("viewCount"), document.getElementById("viewCountTop")].filter(Boolean);
@@ -664,6 +677,18 @@ setLang(localStorage.getItem("site_lang") || "en");
   const hasCounted = localStorage.getItem(FLAG) === "1";
   els.forEach(e=> e.textContent = "…");
   function setAll(v){ els.forEach(e=> e.textContent = v); }
+  function animateCount(target){
+    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) { setAll(target.toLocaleString()); return; }
+    let cur=0; const dur=700; const start=performance.now();
+    function tick(now){
+      const p=Math.min(1,(now-start)/dur);
+      const eased=1-Math.pow(1-p,3);
+      cur=Math.round(target*eased);
+      els.forEach(e=> e.textContent=cur.toLocaleString());
+      if(p<1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
 
   async function tryFetch(url){
     const ctrl = new AbortController();
@@ -685,7 +710,7 @@ setLang(localStorage.getItem("site_lang") || "en");
     if(v === null) v = await tryFetch(`https://corsproxy.io/?${encodeURIComponent(`${API}/${mode}/${KEY}`)}`);
     if(v === null) v = await tryFetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(`${API}/${mode}/${KEY}`)}`);
     if(v !== null){
-      setAll(v.toLocaleString());
+      if(typeof v==="number" && v<5000) animateCount(v); else setAll(v.toLocaleString());
       if(!hasCounted) localStorage.setItem(FLAG, "1");
       localStorage.setItem(LOCAL_KEY, String(v));
       return;
