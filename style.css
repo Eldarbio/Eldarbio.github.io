@@ -175,11 +175,17 @@ html.dark #themeToggle .icon-moon{display:block}
 .t{display:grid; grid-template-columns:64px 1fr; gap:.8rem; padding:.9rem; background:var(--card); border:1px solid var(--border); border-radius:16px}
 .year{font-weight:700; color:var(--accent)}
 .ach-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:.9rem}
-.ach-card{display:flex; gap:.8rem; background:var(--card); border:1px solid var(--border); border-radius:16px; padding:.9rem; box-shadow:var(--shadow); align-items:flex-start}
+.ach-card{display:flex; flex-direction:column; background:var(--card); border:1px solid var(--border); border-radius:16px; overflow:hidden; box-shadow:var(--shadow); transition: transform .18s, box-shadow .18s}
 .ach-card.win{border-color:color-mix(in srgb, var(--accent) 22%, var(--border))}
-.ach-card h3{margin:.05rem 0 .2rem; font-size:.98rem; line-height:1.2}
-.ach-card p{margin:0; font-size:.88rem; color:var(--muted)}
-.ach-card .year{font-size:.76rem; color:var(--muted); margin-top:.15rem; display:block}
+.ach-photo-wrap{aspect-ratio:16/10; background:var(--bg-soft); border-bottom:1px solid var(--border); overflow:hidden; display:grid; place-items:center; position:relative}
+.ach-photo-wrap img{width:100%; height:100%; object-fit:cover; display:block; transition: transform .35s ease}
+.ach-card:hover .ach-photo-wrap img{transform:scale(1.04)}
+.ach-photo-fallback{width:100%; height:100%; display:grid; place-items:center; padding:1rem; text-align:center; color:var(--muted); font-size:.72rem; font-weight:600; letter-spacing:.06em; text-transform:uppercase; background:linear-gradient(135deg, var(--bg-soft) 0%, color-mix(in srgb, var(--bg-soft) 70%, var(--card)) 100%)}
+.ach-photo-fallback span{border:1px dashed color-mix(in srgb, var(--border) 80%, var(--accent) 20%); padding:.35rem .6rem; border-radius:999px; background:var(--card)}
+.ach-body{display:flex; gap:.8rem; padding:.9rem; align-items:flex-start}
+.ach-body h3{margin:.05rem 0 .2rem; font-size:.98rem; line-height:1.2}
+.ach-body p{margin:0; font-size:.88rem; color:var(--muted)}
+.ach-body .year{font-size:.76rem; color:var(--muted); margin-top:.15rem; display:block}
 .badge{width:32px; height:32px; flex:0 0 32px; display:grid; place-items:center; border-radius:10px; background:var(--bg-soft); border:1px solid var(--border); font-weight:700; font-size:.78rem; color:var(--text)}
 .badge.gold{background:color-mix(in srgb, var(--accent) 14%, var(--card)); border-color:color-mix(in srgb, var(--accent) 28%, var(--border)); color:var(--accent)}
 .badge.silver{background:#e8e8e6; color:#3a3a38; border-color:#d6d6d3} html.dark .badge.silver{background:#2e2e2c; color:#e6e6e2; border-color:#3a3a38}
