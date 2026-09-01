@@ -175,27 +175,11 @@ html.dark #themeToggle .icon-moon{display:block}
 .t{display:grid; grid-template-columns:64px 1fr; gap:.8rem; padding:.9rem; background:var(--card); border:1px solid var(--border); border-radius:16px}
 .year{font-weight:700; color:var(--accent)}
 .ach-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:.9rem}
-.ach-card{display:flex; gap:.8rem; background:var(--card); border:1px solid var(--border); border-radius:16px; padding:.9rem; box-shadow:var(--shadow); align-items:flex-start; position:relative}
+.ach-card{display:flex; gap:.8rem; background:var(--card); border:1px solid var(--border); border-radius:16px; padding:.9rem; box-shadow:var(--shadow); align-items:flex-start}
 .ach-card.win{border-color:color-mix(in srgb, var(--accent) 22%, var(--border))}
 .ach-card h3{margin:.05rem 0 .2rem; font-size:.98rem; line-height:1.2}
 .ach-card p{margin:0; font-size:.88rem; color:var(--muted)}
 .ach-card .year{font-size:.76rem; color:var(--muted); margin-top:.15rem; display:block}
-/* PC-only hover peek — adblock-safe names (no popup/ad/modal) */
-.ach-peek{position:absolute; left:calc(100% + 12px); top:50%; transform:translateY(-50%) scale(.96); width:220px; aspect-ratio:16/10; background:var(--card); border:1px solid var(--border); border-radius:12px; overflow:hidden; box-shadow:0 12px 32px rgba(30,20,10,.14); opacity:0; pointer-events:none; transition: opacity .18s ease, transform .18s ease; z-index:5; display:grid; place-items:center}
-.ach-peek img{width:100%; height:100%; object-fit:cover; display:block}
-.ach-peek-fallback{width:100%; height:100%; display:grid; place-items:center; padding:.8rem; text-align:center; color:var(--muted); font-size:.68rem; font-weight:600; letter-spacing:.05em; text-transform:uppercase; background:linear-gradient(135deg, var(--bg-soft), var(--card))}
-.ach-peek-fallback span{border:1px dashed var(--border); padding:.3rem .5rem; border-radius:999px; background:var(--card)}
-@media (hover:hover) and (pointer:fine){
-  .ach-card:hover .ach-peek{opacity:1; transform:translateY(-50%) scale(1); pointer-events:auto}
-  .ach-card:hover{transform:translateY(-1px); box-shadow:0 10px 22px rgba(30,20,10,.10)}
-}
-@media (max-width:900px){
-  .ach-peek{left:50%; top:auto; bottom:calc(100% + 10px); transform:translateX(-50%) scale(.96)}
-  .ach-card:hover .ach-peek{transform:translateX(-50%) scale(1)}
-}
-@media (max-width:640px), (hover:none), (pointer:coarse){
-  .ach-peek{display:none !important}
-}
 .badge{width:32px; height:32px; flex:0 0 32px; display:grid; place-items:center; border-radius:10px; background:var(--bg-soft); border:1px solid var(--border); font-weight:700; font-size:.78rem; color:var(--text)}
 .badge.gold{background:color-mix(in srgb, var(--accent) 14%, var(--card)); border-color:color-mix(in srgb, var(--accent) 28%, var(--border)); color:var(--accent)}
 .badge.silver{background:#e8e8e6; color:#3a3a38; border-color:#d6d6d3} html.dark .badge.silver{background:#2e2e2c; color:#e6e6e2; border-color:#3a3a38}
