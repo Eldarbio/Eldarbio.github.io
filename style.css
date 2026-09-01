@@ -174,8 +174,8 @@ html.dark #themeToggle .icon-moon{display:block}
 .timeline{display:grid; gap:.9rem}
 .t{display:grid; grid-template-columns:64px 1fr; gap:.8rem; padding:.9rem; background:var(--card); border:1px solid var(--border); border-radius:16px}
 .year{font-weight:700; color:var(--accent)}
-.ach-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:.5rem; justify-items:center}
-.ach-card{display:flex; gap:.65rem; background:var(--card); border:1px solid var(--border); border-radius:14px; padding:.65rem .75rem; box-shadow:var(--shadow); align-items:flex-start; width:100%; max-width:320px}
+.ach-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:.5rem}
+.ach-card{display:flex; gap:.65rem; background:var(--card); border:1px solid var(--border); border-radius:14px; padding:.65rem .75rem; box-shadow:var(--shadow); align-items:flex-start}
 .ach-card.win{border-color:color-mix(in srgb, var(--accent) 22%, var(--border))}
 .ach-card h3{margin:.05rem 0 .2rem; font-size:.98rem; line-height:1.2}
 .ach-card p{margin:0; font-size:.88rem; color:var(--muted)}
